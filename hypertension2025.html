@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025 ACC/AHA Hypertension Guidelines - Interactive Cases</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #1e293b;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            overflow: hidden;
+            border: 1px solid #334155;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .case-selector {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 30px;
+            background: #0f172a;
+            border-bottom: 2px solid #334155;
+        }
+
+        .case-btn {
+            padding: 15px 30px;
+            background: #1e293b;
+            border: 2px solid #3b82f6;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #e2e8f0;
+        }
+
+        .case-btn:hover {
+            background: #3b82f6;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .case-btn.active {
+            background: #2563eb;
+            color: white;
+            border-color: #2563eb;
+        }
+
+        .case-btn.completed {
+            background: #059669;
+            color: white;
+            border-color: #059669;
+        }
+
+        .content {
+            padding: 30px;
+            min-height: 500px;
+            color: #e2e8f0;
+        }
+
+        .case-intro {
+            background: #334155;
+            border-left: 5px solid #3b82f6;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+
+        .case-intro h2 {
+            color: #f1f5f9;
+            margin-bottom: 15px;
+        }
+
+        .patient-info {
+            background: #1e293b;
+            border: 1px solid #475569;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .patient-info h3 {
+            color: #cbd5e1;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .info-item {
+            padding: 8px;
+            background: #0f172a;
+            border-radius: 5px;
+            color: #cbd5e1;
+        }
+
+        .info-item strong {
+            color: #60a5fa;
+        }
+
+        .visit-section {
+            background: #1e293b;
+            border: 2px solid #334155;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .visit-header {
+            background: linear-gradient(135deg, #3730a3 0%, #6366f1 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .clinical-data {
+            background: #0f172a;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            color: #e2e8f0;
+            border: 1px solid #334155;
+        }
+
+        .question-box {
+            background: #1e3a8a;
+            border: 2px solid #3b82f6;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .question-box h4 {
+            color: #f0f9ff;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .options {
+            margin: 20px 0;
+        }
+
+        .option {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 15px;
+            margin: 10px 0;
+            background: #0f172a;
+            border: 2px solid #334155;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            color: #e2e8f0;
+        }
+
+        .option:hover {
+            background: #1e293b;
+            border-color: #60a5fa;
+            transform: translateX(5px);
+        }
+
+        .option.selected {
+            background: #1e3a8a;
+            border-color: #60a5fa;
+        }
+
+        .option.correct {
+            background: #065f46;
+            border-color: #10b981;
+        }
+
+        .option.incorrect {
+            background: #7f1d1d;
+            border-color: #ef4444;
+        }
+
+        .submit-btn {
+            padding: 12px 30px;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .submit-btn:disabled {
+            background: #475569;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .feedback {
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .feedback.correct {
+            background: #065f46;
+            border: 2px solid #10b981;
+            color: #d1fae5;
+        }
+
+        .feedback.incorrect {
+            background: #7f1d1d;
+            border: 2px solid #ef4444;
+            color: #fee2e2;
+        }
+
+        .feedback h5 {
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            color: #f0fdf4;
+        }
+
+        .next-btn {
+            padding: 12px 30px;
+            background: #10b981;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .next-btn:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .case-complete {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 30px 0;
+            display: none;
+        }
+
+        .case-complete h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .score-display {
+            font-size: 1.5rem;
+            margin: 20px 0;
+        }
+
+        .final-feedback {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: left;
+            border: 1px solid #334155;
+        }
+
+        .key-points {
+            background: #0f172a;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 1px solid #334155;
+        }
+
+        .key-points h4 {
+            color: #60a5fa;
+            margin-bottom: 10px;
+        }
+
+        .key-points ul {
+            margin-left: 20px;
+            color: #cbd5e1;
+        }
+
+        .key-points li {
+            margin: 8px 0;
+        }
+
+        .welcome {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .welcome h2 {
+            color: #f1f5f9;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .welcome p {
+            color: #94a3b8;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .highlight {
+            background: #1e3a8a;
+            color: #93c5fd;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+
+        .critical {
+            color: #ef4444;
+            font-weight: bold;
+        }
+
+        .new-guideline {
+            background: #1e3a8a;
+            border-left: 4px solid #60a5fa;
+            padding: 10px 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            color: #e0f2fe;
+        }
+
+        .new-guideline strong {
+            color: #93c5fd;
+        }
+
+        @media (max-width: 768px) {
+            .case-selector {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .case-btn {
+                width: 200px;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>2025 ACC/AHA Hypertension Guidelines</h1>
+            <p>Interactive Case-Based Learning for Internal Medicine Residents</p>
+        </div>
+
+        <div class="case-selector">
+            <button class="case-btn" onclick="selectCase(1)">Case 1: Stage 1 HTN</button>
+            <button class="case-btn" onclick="selectCase(2)">Case 2: Resistant HTN</button>
+            <button class="case-btn" onclick="selectCase(3)">Case 3: Severe HTN & CKD</button>
+        </div>
+
+        <div class="content" id="content">
+            <div class="welcome">
+                <h2>Welcome to the 2025 Guidelines Training Module</h2>
+                <p>Select a case above to begin. Each case presents complex, real-world scenarios incorporating the latest 2025 ACC/AHA hypertension guidelines.</p>
+                <p>You'll make clinical decisions at critical points and receive detailed feedback based on the new recommendations.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Case data structure
+        const cases = {
+            1: {
+                title: "The Skeptical Professional—Navigating Stage 1 Hypertension",
+                patient: {
+                    name: "David M.",
+                    age: 45,
+                    gender: "Male",
+                    occupation: "Software Engineer",
+                    comorbidities: ["Obesity (BMI 31)", "Prediabetes (A1c 6.0%)"],
+                    medications: "None"
+                },
+                visits: [
+                    {
+                        title: "Visit 1: Initial Diagnosis and Risk Stratification",
+                        scenario: `David presents for an annual physical. He reports high stress and a sedentary lifestyle.
+                        
+                        <strong>Vitals:</strong> BP 138/88 mm Hg (average of 3 standardized automated office readings)
+                        <strong>Labs:</strong> LDL 130 mg/dL, Creatinine 0.9 mg/dL, K 4.0 mEq/L`,
+                        
+                        question: "What is your next step in risk stratification according to the 2025 guidelines?",
+                        options: [
+                            "Use the Pooled Cohort Equations (PCE) to calculate 10-year ASCVD risk",
+                            "Use the PREVENT™ calculator for 10-year CVD risk assessment",
+                            "Proceed directly to lifestyle modification without risk calculation",
+                            "Start immediate pharmacotherapy given Stage 1 hypertension"
+                        ],
+                        correct: 1,
+                        explanation: `<strong>Correct!</strong> The 2025 guidelines now recommend the PREVENT™ calculator over the older Pooled Cohort Equations due to its contemporary data and inclusion of diverse populations (Section 1.4). 
+                        
+                        David's PREVENT 10-year CVD Risk is calculated at 6.5%. Since this is <7.5% and he lacks clinical CVD, DM, or CKD, the guidelines recommend an initial 3-to-6-month trial of intensive lifestyle modification before considering pharmacotherapy.`
+                    },
+                    {
+                        title: "Visit 2: Monitoring Challenges (Month 2)",
+                        scenario: `David returns frustrated. He did not purchase an arm cuff as instructed.
+                        
+                        <strong>Vitals:</strong> BP 140/90 mm Hg
+                        <strong>Patient Report:</strong> "I've been using my new smartwatch. It says my blood pressure is usually 125/78. I think the office readings are just white-coat hypertension."
+                        
+                        He admits minimal adherence to dietary changes.`,
+                        
+                        question: "How should you address his reliance on smartwatch BP readings per the 2025 guidelines?",
+                        options: [
+                            "Accept the smartwatch readings and diagnose white-coat hypertension",
+                            "Recommend he upgrade to a more expensive smartwatch with FDA clearance",
+                            "Educate that cuffless devices are Class 3: No Benefit and require validated HBPM",
+                            "Order 24-hour ambulatory BP monitoring instead of home monitoring"
+                        ],
+                        correct: 2,
+                        explanation: `<strong>Correct!</strong> The 2025 guidelines explicitly state that cuffless devices, including smartwatches, are NOT recommended (Class 3: No Benefit) for the diagnosis or management of high BP due to insufficient precision (Section 3.1.4.1).
+                        
+                        You must educate David about the necessity of validated upper-arm cuff HBPM to accurately assess control and rule out white-coat hypertension. Additionally, you should introduce the new recommendation for potassium-based salt substitutes for home cooking (COR 2a), after confirming no contraindications.`
+                    },
+                    {
+                        title: "Visit 3: Decision Point (Month 6)",
+                        scenario: `David returns with a log from a validated HBPM device. He has used the salt substitute and lost 4 lbs, but dietary adherence remains inconsistent.
+                        
+                        <strong>Vitals:</strong> BP 136/86 mm Hg
+                        <strong>HBPM Average (7 days):</strong> 134/84 mm Hg
+                        <strong>PREVENT Risk:</strong> Still 6.5%`,
+                        
+                        question: "After a 6-month lifestyle trial with persistent Stage 1 HTN and CVD risk <7.5%, what is the recommended approach?",
+                        options: [
+                            "Continue lifestyle modification for another 6 months",
+                            "Initiate pharmacotherapy to prevent target organ damage",
+                            "Order additional testing for secondary causes first",
+                            "Refer to cardiology before starting medications"
+                        ],
+                        correct: 1,
+                        explanation: `<strong>Correct!</strong> Per the 2025 guidelines, even with a CVD risk <7.5%, initiation of medication therapy is now recommended (COR 1) after a 6-month trial if BP remains ≥130/80 mm Hg. This prevents target organ damage and mitigates further BP increases (Section 5.2.2).
+                        
+                        You should initiate a low-dose, first-line agent (e.g., Chlorthalidone 12.5mg), reinforcing the universal goal of <130/80 mm Hg.`
+                    }
+                ]
+            },
+            2: {
+                title: "The Spectrum of Resistant Hypertension",
+                patient: {
+                    name: "Sarah Chen",
+                    age: 62,
+                    gender: "Female",
+                    comorbidities: ["Type 2 Diabetes", "Obesity (BMI 33)", "OSA (CPAP compliant)"],
+                    medications: "Lisinopril 40mg, Amlodipine 10mg, HCTZ 25mg, Metformin, Atorvastatin"
+                },
+                visits: [
+                    {
+                        title: "Visit 1: Identifying Apparent Resistance",
+                        scenario: `Sarah presents for follow-up. She reports taking her medications faithfully.
+                        
+                        <strong>Vitals:</strong> BP 152/94 mm Hg
+                        <strong>Recent Labs:</strong> Cr 1.1 mg/dL, K 3.9 mEq/L
+                        <strong>Current Regimen:</strong> On 3 antihypertensives including a diuretic`,
+                        
+                        question: "What is the most appropriate first step in managing her apparent treatment-resistant hypertension?",
+                        options: [
+                            "Add spironolactone as a fourth agent immediately",
+                            "Switch HCTZ to chlorthalidone and order HBPM to exclude white-coat effect",
+                            "Proceed directly to screening for primary aldosteronism",
+                            "Increase all current medication doses to maximum"
+                        ],
+                        correct: 1,
+                        explanation: `<strong>Correct!</strong> The first steps are to exclude pseudoresistance (white-coat effect) with HBPM and optimize the regimen. The 2025 guidelines prefer chlorthalidone over HCTZ as a more potent thiazide-type diuretic. This optimization should occur before adding fourth-line agents or extensive workup.`
+                    },
+                    {
+                        title: "Visit 2: Confirmation and Workup (Month 1)",
+                        scenario: `Sarah returns after switching to Chlorthalidone 25mg.
+                        
+                        <strong>Vitals:</strong> BP 148/90 mm Hg
+                        <strong>HBPM Average:</strong> 145/88 mm Hg (confirms true resistant HTN)
+                        <strong>Labs Post-Chlorthalidone:</strong> K 3.6 mEq/L`,
+                        
+                        question: "According to the 2025 guidelines, what screening is now MANDATORY for confirmed resistant hypertension?",
+                        options: [
+                            "Screen for primary aldosteronism only if hypokalemia develops",
+                            "Screen for primary aldosteronism regardless of potassium level",
+                            "Complete renal artery imaging first",
+                            "24-hour urine metanephrines for pheochromocytoma"
+                        ],
+                        correct: 1,
+                        explanation: `<strong>Correct!</strong> The 2025 guidelines strongly recommend (COR 1) screening for primary aldosteronism in ALL patients with resistant hypertension, regardless of whether hypokalemia is present (Section 3.2.3).
+                        
+                        Critically, per the new guidelines, Sarah can remain on her current medications for this initial screening, minimizing barriers and delays.`
+                    },
+                    {
+                        title: "Visit 3: PA Screening Protocol",
+                        scenario: `You've decided to screen for primary aldosteronism.
+                        
+                        <strong>Current Medications:</strong> Lisinopril 40mg, Amlodipine 10mg, Chlorthalidone 25mg`,
+                        
+                        question: "Per the 2025 guidelines, what is the correct approach to PA screening while on these medications?",
+                        options: [
+                            "Must discontinue all medications for 4 weeks before testing",
+                            "Must stop ACE inhibitor and diuretic but can continue CCB",
+                            "Can perform screening while continuing all current medications",
+                            "Only need to stop spironolactone if patient were taking it"
+                        ],
+                        correct: 2,
+                        explanation: `<strong>Correct!</strong> This is a critical 2025 update (COR 1): patients can remain on their current medications (including ACE inhibitors, ARBs, diuretics, and CCBs) for initial PA screening with aldosterone/renin ratio. This minimizes barriers and delays (Section 3.2.3.1).
+                        
+                        You order PAC and PRA. Results show: PAC 18 ng/dL, PRA <0.6 ng/mL/h, ARR >30 (positive screen). You refer to endocrinology and initiate spironolactone 25mg daily with close potassium monitoring.`
+                    },
+                    {
+                        title: "Visit 4: Managing MRA Side Effects (Month 5)",
+                        scenario: `Endocrinology confirmed PA due to bilateral adrenal hyperplasia. Sarah is on medical therapy.
+                        
+                        <strong>Vitals:</strong> BP 128/78 mm Hg (at goal!)
+                        <strong>Current MRA:</strong> Spironolactone 50mg daily
+                        <strong>Complaint:</strong> Significant breast tenderness`,
+                        
+                        question: "What is the best management for this MRA-related side effect?",
+                        options: [
+                            "Reduce spironolactone dose to 25mg daily",
+                            "Switch to eplerenone 50mg daily",
+                            "Add tamoxifen to counteract the gynecomastia",
+                            "Discontinue MRA therapy and maximize other agents"
+                        ],
+                        correct: 1,
+                        explanation: `<strong>Correct!</strong> Eplerenone is more selective for the mineralocorticoid receptor and less likely to cause hormonal side effects like gynecomastia compared to spironolactone. This switch maintains the beneficial effects on BP control in PA while improving tolerability.`
+                    }
+                ]
+            },
+            3: {
+                title: "Severe Hypertension, CKD, and Inpatient Pitfalls",
+                patient: {
+                    name: "Robert Rodriguez",
+                    age: 68,
+                    gender: "Male",
+                    comorbidities: ["CKD Stage 3a (baseline eGFR 55)"],
+                    medications: "Atorvastatin only"
+                },
+                visits: [
+                    {
+                        title: "Visit 1: Urgent Presentation in Clinic",
+                        scenario: `Robert presents for pre-operative evaluation for elective knee replacement.
+                        
+                        <strong>Vitals:</strong> BP 188/112 mm Hg (confirmed on repeat)
+                        <strong>Symptoms:</strong> Entirely asymptomatic (no chest pain, headache, or neurological changes)
+                        <strong>ECG:</strong> LVH, no acute ischemia
+                        <strong>STAT Labs:</strong> eGFR 54, K 4.2 mEq/L`,
+                        
+                        question: "Using 2025 terminology and guidelines, how should you classify and manage this presentation?",
+                        options: [
+                            "Hypertensive urgency - admit for IV antihypertensive therapy",
+                            "Hypertensive emergency - immediate ED transfer for IV nitroprusside",
+                            "Severe hypertension - outpatient management with oral medications",
+                            "Malignant hypertension - urgent nephrology consultation"
+                        ],
+                        correct: 2,
+                        explanation: `<strong>Correct!</strong> The 2025 guidelines use "Severe Hypertension" terminology, retiring "Hypertensive Urgency." Without acute target organ damage, the guidelines strongly recommend outpatient management with timely initiation/intensification of oral medications rather than hospitalization (Message 10).`
+                    },
+                    {
+                        title: "Visit 1 (continued): Initial Therapy Selection",
+                        scenario: `You've diagnosed severe hypertension without acute TOD. Robert has Stage 2 HTN (BP 188/112) and CKD Stage 3a.`,
+                        
+                        question: "What is the optimal initial antihypertensive approach per 2025 guidelines?",
+                        options: [
+                            "Start single agent (lisinopril 10mg) and titrate gradually",
+                            "Start two agents as single-pill combination with RAAS inhibitor",
+                            "Start three agents immediately given severity",
+                            "Start CCB monotherapy to avoid affecting kidney function"
+                        ],
+                        correct: 1,
+                        explanation: `<strong>Correct!</strong> For Stage 2 HTN (markedly elevated), the 2025 guidelines recommend initiating TWO first-line agents, preferably as a Single-Pill Combination (SPC) (Message 8). 
+                        
+                        Additionally, for adults with HTN and CKD (eGFR <60), RAAS inhibition is recommended (COR 1) even with low albuminuria to decrease CVD and delay CKD progression (Section 5.3.8).
+                        
+                        You prescribe Telmisartan/Amlodipine 40/5mg daily and arrange follow-up in 3 days. Surgery is postponed.`
+                    },
+                    {
+                        title: "Inpatient Scenario: Post-Op Day 1",
+                        scenario: `Two months later, Robert is admitted for rescheduled knee replacement. Pre-op BP was controlled (128/76).
+                        
+                        <strong>Post-Op Day 1:</strong> Due to pain and volume expansion, BP is 190/100 mm Hg
+                        <strong>Assessment:</strong> No signs of acute TOD
+                        <strong>Overnight Order:</strong> Cross-cover resident ordered "IV Hydralazine 10mg PRN for SBP >180"
+                        
+                        Patient received one dose. BP dropped to 110/60. Creatinine increased (AKI).`,
+                        
+                        question: "According to 2025 guidelines, what is the assessment of this management?",
+                        options: [
+                            "Appropriate use of IV antihypertensives for severe hypertension",
+                            "Should have used IV labetalol instead of hydralazine",
+                            "Harmful practice - IV/rapid-acting agents contraindicated without acute TOD",
+                            "Correct approach but dose was too high"
+                        ],
+                        correct: 2,
+                        explanation: `<strong>Correct!</strong> This is a CRITICAL 2025 update: For hospitalized adults with severe HTN without acute TOD, intermittent use of IV or rapid-acting oral antihypertensives to acutely reduce BP is NOT recommended and potentially harmful (Class 3: Harm) (Section 6.2).
+                        
+                        The rapid BP reduction likely contributed to the AKI. Correct management involves optimizing analgesia, addressing volume status, ensuring home medications are administered, and aiming for gradual control.`
+                    },
+                    {
+                        title: "Visit 3: Post-Discharge Follow-up (Month 3)",
+                        scenario: `Robert returns after hospital discharge. His AKI has resolved.
+                        
+                        <strong>Vitals:</strong> BP 134/84 mm Hg
+                        <strong>Labs:</strong> eGFR back to baseline (55)
+                        <strong>Current Regimen:</strong> Telmisartan/Amlodipine 80/5mg daily
+                        
+                        He mentions his wife bought potassium-based salt substitute to help his BP.`,
+                        
+                        question: "What counseling is critical regarding the salt substitute?",
+                        options: [
+                            "Encourage liberal use as it's proven to lower BP",
+                            "It's fine but probably won't make much difference",
+                            "Contraindicated due to CKD and concurrent ARB use",
+                            "Safe to use if he monitors potassium monthly"
+                        ],
+                        correct: 2,
+                        explanation: `<strong>Correct!</strong> Potassium-based salt substitutes are contraindicated in patients with CKD and those taking RAAS inhibitors (like ARBs) due to risk of hyperkalemia (Section 5.1). 
+                        
+                        While these substitutes have a COR 2a recommendation for BP reduction in the general population, they must be avoided in patients with reduced kidney function or on medications that increase potassium.`
+                    }
+                ]
+            }
+        };
+
+        let currentCase = null;
+        let currentVisit = 0;
+        let score = 0;
+        let totalQuestions = 0;
+        let selectedOption = null;
+        let answeredQuestions = [];
+
+        function selectCase(caseNum) {
+            currentCase = caseNum;
+            currentVisit = 0;
+            score = 0;
+            totalQuestions = cases[caseNum].visits.length;
+            answeredQuestions = [];
+            
+            // Update button states
+            document.querySelectorAll('.case-btn').forEach((btn, index) => {
+                btn.classList.remove('active', 'completed');
+                if (index + 1 === caseNum) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            loadCaseIntro();
+        }
+
+        function loadCaseIntro() {
+            const caseData = cases[currentCase];
+            const content = document.getElementById('content');
+            
+            content.innerHTML = `
+                <div class="case-intro">
+                    <h2>${caseData.title}</h2>
+                    <div class="patient-info">
+                        <h3>Patient Information</h3>
+                        <div class="info-grid">
+                            <div class="info-item"><strong>Name:</strong> ${caseData.patient.name}</div>
+                            <div class="info-item"><strong>Age:</strong> ${caseData.patient.age} years old</div>
+                            <div class="info-item"><strong>Gender:</strong> ${caseData.patient.gender}</div>
+                            <div class="info-item"><strong>Occupation:</strong> ${caseData.patient.occupation}</div>
+                        </div>
+                        <div style="margin-top: 15px;">
+                            <div class="info-item"><strong>Comorbidities:</strong> ${caseData.patient.comorbidities.join(', ')}</div>
+                            <div class="info-item"><strong>Current Medications:</strong> ${caseData.patient.medications}</div>
+                        </div>
+                    </div>
+                    <button class="submit-btn" onclick="startCase()">Begin Case</button>
+                </div>
+            `;
+        }
+
+        function startCase() {
+            loadVisit();
+        }
+
+        function loadVisit() {
+            const caseData = cases[currentCase];
+            const visit = caseData.visits[currentVisit];
+            const content = document.getElementById('content');
+            
+            content.innerHTML = `
+                <div class="visit-section">
+                    <div class="visit-header">
+                        <h3>${visit.title}</h3>
+                        <p>Question ${currentVisit + 1} of ${totalQuestions}</p>
+                    </div>
+                    
+                    <div class="clinical-data">
+                        <h4>Clinical Presentation</h4>
+                        <div>${visit.scenario}</div>
+                    </div>
+                    
+                    <div class="question-box">
+                        <h4>${visit.question}</h4>
+                        <div class="options">
+                            ${visit.options.map((option, index) => `
+                                <button class="option" onclick="selectOption(${index})" id="option-${index}">
+                                    ${String.fromCharCode(65 + index)}. ${option}
+                                </button>
+                            `).join('')}
+                        </div>
+                        <button class="submit-btn" id="submitBtn" onclick="submitAnswer()" disabled>Submit Answer</button>
+                    </div>
+                    
+                    <div class="feedback" id="feedback"></div>
+                    <button class="next-btn" id="nextBtn" onclick="nextVisit()">Continue →</button>
+                </div>
+                
+                <div class="case-complete" id="caseComplete">
+                    <h3>🎉 Case Complete!</h3>
+                    <div class="score-display">Your Score: <span id="finalScore"></span></div>
+                    <div class="final-feedback" id="finalFeedback"></div>
+                </div>
+            `;
+            
+            selectedOption = null;
+        }
+
+        function selectOption(index) {
+            // Remove previous selection
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Add selection to clicked option
+            document.getElementById(`option-${index}`).classList.add('selected');
+            selectedOption = index;
+            
+            // Enable submit button
+            document.getElementById('submitBtn').disabled = false;
+        }
+
+        function submitAnswer() {
+            if (selectedOption === null) return;
+            
+            const caseData = cases[currentCase];
+            const visit = caseData.visits[currentVisit];
+            const isCorrect = selectedOption === visit.correct;
+            
+            // Track answer
+            answeredQuestions.push({
+                question: currentVisit,
+                correct: isCorrect
+            });
+            
+            if (isCorrect) {
+                score++;
+            }
+            
+            // Disable further selection
+            document.querySelectorAll('.option').forEach((opt, index) => {
+                opt.onclick = null;
+                opt.style.cursor = 'default';
+                
+                if (index === visit.correct) {
+                    opt.classList.add('correct');
+                } else if (index === selectedOption && !isCorrect) {
+                    opt.classList.add('incorrect');
+                }
+            });
+            
+            // Show feedback
+            const feedback = document.getElementById('feedback');
+            feedback.className = isCorrect ? 'feedback correct' : 'feedback incorrect';
+            feedback.innerHTML = `
+                <h5>${isCorrect ? '✓ Correct!' : '✗ Incorrect'}</h5>
+                <div class="new-guideline">
+                    <strong>2025 Guideline Update:</strong>
+                    <p>${visit.explanation}</p>
+                </div>
+            `;
+            feedback.style.display = 'block';
+            
+            // Disable submit button and show next button
+            document.getElementById('submitBtn').style.display = 'none';
+            document.getElementById('nextBtn').style.display = 'block';
+        }
+
+        function nextVisit() {
+            currentVisit++;
+            
+            if (currentVisit < cases[currentCase].visits.length) {
+                loadVisit();
+            } else {
+                showCaseComplete();
+            }
+        }
+
+        function showCaseComplete() {
+            const caseComplete = document.getElementById('caseComplete');
+            const percentage = Math.round((score / totalQuestions) * 100);
+            
+            // Hide visit section
+            document.querySelector('.visit-section').style.display = 'none';
+            
+            // Show completion
+            caseComplete.style.display = 'block';
+            document.getElementById('finalScore').textContent = `${score}/${totalQuestions} (${percentage}%)`;
+            
+            // Generate final feedback
+            let feedbackHtml = '<h4>Case Summary & Key Learning Points</h4>';
+            
+            if (percentage === 100) {
+                feedbackHtml += '<p><strong>Excellent work!</strong> You demonstrated mastery of the 2025 ACC/AHA guidelines.</p>';
+            } else if (percentage >= 75) {
+                feedbackHtml += '<p><strong>Good performance!</strong> You showed solid understanding of the key updates.</p>';
+            } else {
+                feedbackHtml += '<p><strong>Review recommended.</strong> Consider revisiting the 2025 guideline updates.</p>';
+            }
+            
+            // Add key points based on the case
+            feedbackHtml += '<div class="key-points"><h4>Critical 2025 Updates from This Case:</h4><ul>';
+            
+            if (currentCase === 1) {
+                feedbackHtml += `
+                    <li><span class="highlight">PREVENT™ Calculator</span> replaces Pooled Cohort Equations for risk stratification</li>
+                    <li><span class="highlight">Cuffless devices</span> (smartwatches) are Class 3: No Benefit for BP management</li>
+                    <li><span class="highlight">Pharmacotherapy threshold</span>: Start meds after 6-month lifestyle trial if BP remains ≥130/80, even with CVD risk <7.5%</li>
+                    <li><span class="highlight">Potassium salt substitutes</span>: New COR 2a recommendation for BP reduction (check contraindications)</li>
+                `;
+            } else if (currentCase === 2) {
+                feedbackHtml += `
+                    <li><span class="highlight">Mandatory PA screening</span> for ALL resistant HTN, regardless of potassium level</li>
+                    <li><span class="highlight">Simplified PA screening</span>: Can continue current medications during initial testing</li>
+                    <li><span class="highlight">Chlorthalidone preferred</span> over HCTZ as more potent thiazide-type diuretic</li>
+                    <li><span class="highlight">Eplerenone alternative</span> for spironolactone-related gynecomastia</li>
+                `;
+            } else if (currentCase === 3) {
+                feedbackHtml += `
+                    <li><span class="highlight">"Severe Hypertension"</span> terminology replaces "Hypertensive Urgency"</li>
+                    <li><span class="highlight">Outpatient management</span> for severe HTN without acute TOD</li>
+                    <li><span class="highlight">Class 3: Harm</span> - IV/rapid-acting agents in hospitalized patients without acute TOD</li>
+                    <li><span class="highlight">RAAS inhibition</span> recommended for HTN + CKD even with low albuminuria</li>
+                    <li><span class="highlight">Single-pill combinations</span> preferred for Stage 2 HTN initial therapy</li>
+                `;
+            }
+            
+            feedbackHtml += '</ul></div>';
+            
+            // Add review of missed questions
+            const missedQuestions = answeredQuestions.filter(q => !q.correct);
+            if (missedQuestions.length > 0) {
+                feedbackHtml += '<div class="key-points"><h4>Review These Topics:</h4><ul>';
+                missedQuestions.forEach(q => {
+                    const visit = cases[currentCase].visits[q.question];
+                    feedbackHtml += `<li>Visit ${q.question + 1}: ${visit.title.split(':')[1]}</li>`;
+                });
+                feedbackHtml += '</ul></div>';
+            }
+            
+            feedbackHtml += `
+                <div style="margin-top: 30px; text-align: center;">
+                    <button class="submit-btn" onclick="resetToMenu()">Return to Case Selection</button>
+                </div>
+            `;
+            
+            document.getElementById('finalFeedback').innerHTML = feedbackHtml;
+            
+            // Mark case as completed
+            document.querySelectorAll('.case-btn')[currentCase - 1].classList.remove('active');
+            document.querySelectorAll('.case-btn')[currentCase - 1].classList.add('completed');
+        }
+
+        function resetToMenu() {
+            document.getElementById('content').innerHTML = `
+                <div class="welcome">
+                    <h2>Select Another Case</h2>
+                    <p>Choose a case above to continue your learning with the 2025 ACC/AHA hypertension guidelines.</p>
+                    <div class="key-points" style="max-width: 600px; margin: 30px auto;">
+                        <h4>Progress Summary</h4>
+                        <ul style="text-align: left;">
+                            ${Object.keys(cases).map(caseNum => {
+                                const btn = document.querySelectorAll('.case-btn')[caseNum - 1];
+                                const completed = btn.classList.contains('completed');
+                                return `<li>Case ${caseNum}: ${completed ? '✓ Completed' : 'Not started'}</li>`;
+                            }).join('')}
+                        </ul>
+                    </div>
+                </div>
+            `;
+            
+            // Clear active state
+            document.querySelectorAll('.case-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+        }
+    </script>
+</body>
+</html>
