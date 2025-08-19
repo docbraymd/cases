@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025 ACC/AHA Hypertension Guidelines - Interactive Cases</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #1e293b;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            overflow: hidden;
+            border: 1px solid #334155;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .case-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            padding: 25px;
+            background: #0f172a;
+            border-bottom: 2px solid #334155;
+        }
+        
+        .resource-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 20px;
+            background: #0f172a;
+            border-bottom: 2px solid #334155;
+            flex-wrap: wrap;
+        }
+
+        .case-btn, .resource-btn {
+            padding: 12px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #e2e8f0;
+            min-width: 140px;
+            text-align: center;
+        }
+        
+        .case-btn {
+            background: #1e293b;
+            border: 2px solid #3b82f6;
+        }
+
+        .case-btn:hover {
+            background: #3b82f6;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .case-btn.active {
+            background: #2563eb;
+            color: white;
+            border-color: #2563eb;
+        }
+
+        .case-btn.completed {
+            background: #059669;
+            color: white;
+            border-color: #059669;
+        }
+        
+        .resource-btn {
+            background: #4c1d95;
+            border: 2px solid #7c3aed;
+        }
+        
+        .resource-btn:hover {
+            background: #6d28d9;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(124, 58, 237, 0.4);
+        }
+
+        .content {
+            padding: 30px;
+            min-height: 500px;
+            color: #e2e8f0;
+        }
+
+        .case-intro {
+            background: #334155;
+            border-left: 5px solid #3b82f6;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+
+        .case-intro h2 {
+            color: #f1f5f9;
+            margin-bottom: 15px;
+        }
+
+        .patient-info {
+            background: #1e293b;
+            border: 1px solid #475569;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .patient-info h3 {
+            color: #cbd5e1;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .info-item {
+            padding: 8px;
+            background: #0f172a;
+            border-radius: 5px;
+            color: #cbd5e1;
+        }
+
+        .info-item strong {
+            color: #60a5fa;
+        }
+
+        .visit-section {
+            background: #1e293b;
+            border: 2px solid #334155;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .visit-header {
+            background: linear-gradient(135deg, #3730a3 0%, #6366f1 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .clinical-data {
+            background: #0f172a;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            color: #e2e8f0;
+            border: 1px solid #334155;
+        }
+
+        .question-box {
+            background: #1e3a8a;
+            border: 2px solid #3b82f6;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .question-box h4 {
+            color: #f0f9ff;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .options {
+            margin: 20px 0;
+        }
+
+        .option {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 15px;
+            margin: 10px 0;
+            background: #0f172a;
+            border: 2px solid #334155;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            color: #e2e8f0;
+        }
+
+        .option:hover {
+            background: #1e293b;
+            border-color: #60a5fa;
+            transform: translateX(5px);
+        }
+
+        .option.selected {
+            background: #1e3a8a;
+            border-color: #60a5fa;
+        }
+
+        .option.correct {
+            background: #065f46;
+            border-color: #10b981;
+        }
+
+        .option.incorrect {
+            background: #7f1d1d;
+            border-color: #ef4444;
+        }
+
+        .submit-btn {
+            padding: 12px 30px;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .submit-btn:disabled {
+            background: #475569;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .feedback {
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .feedback.correct {
+            background: #065f46;
+            border: 2px solid #10b981;
+            color: #d1fae5;
+        }
+
+        .feedback.incorrect {
+            background: #7f1d1d;
+            border: 2px solid #ef4444;
+            color: #fee2e2;
+        }
+
+        .feedback h5 {
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            color: #f0fdf4;
+        }
+
+        .next-btn {
+            padding: 12px 30px;
+            background: #10b981;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .next-btn:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .case-complete {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 30px 0;
+            display: none;
+        }
+
+        .case-complete h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .score-display {
+            font-size: 1.5rem;
+            margin: 20px 0;
+        }
+
+        .final-feedback {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: left;
+            border: 1px solid #334155;
+        }
+
+        .key-points {
+            background: #0f172a;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 1px solid #334155;
+        }
+
+        .key-points h4 {
+            color: #60a5fa;
+            margin-bottom: 10px;
+        }
+
+        .key-points ul {
+            margin-left: 20px;
+            color: #cbd5e1;
+        }
+
+        .key-points li {
+            margin: 8px 0;
+        }
+
+        .welcome {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .welcome h2 {
+            color: #f1f5f9;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .welcome p {
+            color: #94a3b8;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .highlight {
+            background: #1e3a8a;
+            color: #93c5fd;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+
+        .critical {
+            color: #ef4444;
+            font-weight: bold;
+        }
+
+        .new-guideline {
+            background: #1e3a8a;
+            border-left: 4px solid #60a5fa;
+            padding: 10px 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            color: #e0f2fe;
+        }
+
+        .new-guideline strong {
+            color: #93c5fd;
+        }
+
+        @media (max-width: 768px) {
+            .case-selector {
+                grid-template-columns: 1fr;
+            }
+            .case-btn, .resource-btn {
+                width: 100%;
+            }
+            .header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>2025 ACC/AHA Hypertension Guidelines</h1>
+            <p>Interactive Case-Based Learning for Internal Medicine Residents</p>
+        </div>
+
+        <div class="case-selector">
+            <button class="case-btn" onclick="selectCase(1)">Case 1: Stage 1 HTN</button>
+            <button class="case-btn" onclick="selectCase(2)">Case 2: Resistant HTN</button>
+            <button class="case-btn" onclick="selectCase(3)">Case 3: Severe HTN & CKD</button>
+            <button class="case-btn" onclick="selectCase(4)">Case 4: ICH & BP Control</button>
+            <button class="case-btn" onclick="selectCase(5)">Case 5: HTN in Pregnancy</button>
+            <button class="case-btn" onclick="selectCase(6)">Case 6: Refractory HTN & RDN</button>
+        </div>
+        
+        <div class="resource-links">
+            <button class="resource-btn" onclick="openLink('https://www.ahajournals.org/doi/full/10.1161/HYP.0000000000000249')">AHA 2025 HTN Article</button>
+            <button class="resource-btn" onclick="openLink('https://professional.heart.org/en/guidelines-and-statements/prevent-risk-calculator/prevent-calculator')">PREVENT Calculator</button>
+            <button class="resource-btn" onclick="openLink('https://www.heart.org/en/healthy-living/healthy-lifestyle/lifes-essential-8')">Life's Essential 8</button>
+        </div>
+
+        <div class="content" id="content">
+            <div class="welcome">
+                <h2>Welcome to the 2025 Guidelines Training Module</h2>
+                <p>Select a case above to begin. Each case presents complex, real-world scenarios incorporating the latest 2025 ACC/AHA hypertension guidelines.</p>
+                <p>You'll make clinical decisions at critical points and receive detailed feedback based on the new recommendations.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Case data structure
+        const cases = {
+            1: {
+                title: "The Skeptical Professional—Navigating Stage 1 Hypertension",
+                patient: {
+                    name: "David M.",
+                    age: 45,
+                    gender: "Male",
+                    occupation: "Software Engineer",
+                    comorbidities: ["Obesity (BMI 31)", "Prediabetes (A1c 6.0%)"],
+                    medications: "None"
+                },
+                visits: [
+                    {
+                        title: "Visit 1: Initial Diagnosis and Risk Stratification",
+                        scenario: `David presents for an annual physical. He reports high stress and a sedentary lifestyle.
+                        
+                        <strong>Vitals:</strong> BP 138/88 mm Hg (average of 3 standardized automated office readings)
+                        <strong>Labs:</strong> LDL 130 mg/dL, Creatinine 0.9 mg/dL, K 4.0 mEq/L`,
+                        
+                        question: "What is your next step in risk stratification according to the 2025 guidelines?",
+                        options: [
+                            "Use the Pooled Cohort Equations (PCE) to calculate 10-year ASCVD risk",
+                            "Use the PREVENT™ calculator for 10-year CVD risk assessment",
+                            "Proceed directly to lifestyle modification without risk calculation",
+                            "Start immediate pharmacotherapy given Stage 1 hypertension"
+                        ],
+                        correct: 1,
+                        explanation: `<strong>Correct!</strong> The 2025 guidelines now recommend the PREVENT™ calculator over the older Pooled Cohort Equations due to its contemporary data and inclusion of diverse populations (Section 1.4). 
+                        
+                        David's PREVENT 10-year CVD Risk is calculated at 6.5%. Since this is <7.5% and he lacks clinical CVD, DM, or CKD, the guidelines recommend an initial 3-to-6-month trial of intensive lifestyle modification before considering pharmacotherapy.`
+                    },
+                    {
+                        title: "Visit 2: Monitoring Challenges (Month 2)",
+                        scenario: `David returns frustrated. He did not purchase an arm cuff as instructed.
+                        
+                        <strong>Vitals:</strong> BP 140/90 mm Hg
+                        <strong>Patient Report:</strong> "I've been using my new smartwatch. It says my blood pressure is usually 125/78. I think the office readings are just white-coat hypertension."
+                        
+                        He admits minimal adherence to dietary changes.`,
+                        
+                        question: "How should you address his reliance on smartwatch BP readings per the 2025 guidelines?",
+                        options: [
+                            "Accept the smartwatch readings and diagnose white-coat hypertension",
+                            "Recommend he upgrade to a more expensive smartwatch with FDA clearance",
+                            "Educate that cuffless devices are Class 3: No Benefit and require validated HBPM",
+                            "Order 24-hour ambulatory BP monitoring instead of home monitoring"
+                        ],
+                        correct: 2,
+                        explanation: `<strong>Correct!</strong> The 2025 guidelines explicitly state that cuffless devices, including smartwatches, are NOT recommended (Class 3: No Benefit) for the diagnosis or management of high BP due to insufficient precision (Section 3.1.4.1).
+                        
+                        You must educate David about the necessity of validated upper-arm cuff HBPM to accurately assess control and rule out white-coat hypertension. Additionally, you should introduce the new recommendation for potassium-based salt substitutes for home cooking (COR 2a), after confirming no contraindications.`
+                    },
+                    {
+                        title: "Visit 3: Decision Point (Month 6)",
+                        scenario: `David returns with a log from a validated HBPM device. He has used the salt substitute and lost 4 lbs, but dietary adherence remains inconsistent.
+                        
+                        <strong>Vitals:</strong> BP 136/86 mm Hg
+                        <strong>HBPM Average (7 days):</strong> 134/84 mm Hg
+                        <strong>PREVENT Risk:</strong> Still 6.5%`,
+                        
+                        question: "After a 6-month lifestyle trial with persistent Stage 1 HTN and CVD risk <7.5%, what is the recommended approach?",
+                        options: [
+                            "Continue lifestyle modification for another 6 months",
+                            "Initiate pharmacotherapy to prevent target organ damage",
+                            "Order additional testing for secondary causes first",
+                            "Refer to cardiology before starting medications"
+                        ],
+                        correct: 1,
+                        explanation: `<strong>Correct!</strong> Per the 2025 guidelines, even with a CVD risk <7.5%, initiation of medication therapy is now recommended (COR 1) after a 6-month trial if BP remains ≥130/80 mm Hg. This prevents target organ damage and mitigates further BP increases (Section 5.2.2).
+                        
+                        You should initiate a low-dose, first-line agent (e.g., Chlorthalidone 12.5mg), reinforcing the universal goal of <130/80 mm Hg.`
+                    }
+                ]
+            },
+            2: {
+                title: "The Spectrum of Resistant Hypertension",
+                patient: {
+                    name: "Sarah Chen",
+                    age: 62,
+                    gender: "Female",
+                    comorbidities: ["Type 2 Diabetes", "Obesity (BMI 33)", "OSA (CPAP compliant)"],
+                    medications: "Lisinopril 40mg, Amlodipine 10mg, HCTZ 25mg, Metformin, Atorvastatin"
+                },
+                visits: [
+                    {
+                        title: "Visit 1: Identifying Apparent Resistance",
+                        scenario: `Sarah presents for follow-up. She reports taking her medications faithfully.
+                        
+                        <strong>Vitals:</strong> BP 152/94 mm Hg
+                        <strong>Recent Labs:</strong> Cr 1.1 mg/dL, K 3.9 mEq/L
+                        <strong>Current Regimen:</strong> On 3 antihypertensives including a diuretic`,
+                        
+                        question: "What is the most appropriate first step in managing her apparent treatment-resistant hypertension?",
+                        options: [
+                            "Add spironolactone as a fourth agent immediately",
+                            "Switch HCTZ to chlorthalidone and order HBPM to exclude white-coat effect",
+                            "Proceed directly to screening for primary aldosteronism",
+                            "Increase all current medication doses to maximum"
+                        ],
+                        correct: 1,
+                        explanation: `<strong>Correct!</strong> The first steps are to exclude pseudoresistance (white-coat effect) with HBPM and optimize the regimen. The 2025 guidelines prefer chlorthalidone over HCTZ as a more potent thiazide-type diuretic. This optimization should occur before adding fourth-line agents or extensive workup.`
+                    },
+                    {
+                        title: "Visit 2: Confirmation and Workup (Month 1)",
+                        scenario: `Sarah returns after switching to Chlorthalidone 25mg.
+                        
+                        <strong>Vitals:</strong> BP 148/90 mm Hg
+                        <strong>HBPM Average:</strong> 145/88 mm Hg (confirms true resistant HTN)
+                        <strong>Labs Post-Chlorthalidone:</strong> K 3.6 mEq/L`,
+                        
+                        question: "According to the 2025 guidelines, what screening is now MANDATORY for confirmed resistant hypertension?",
+                        options: [
+                            "Screen for primary aldosteronism only if hypokalemia develops",
+                            "Screen for primary aldosteronism regardless of potassium level",
+                            "Complete renal artery imaging first",
+                            "24-hour urine metanephrines for pheochromocytoma"
+                        ],
+                        correct: 1,
+                        explanation: `<strong>Correct!</strong> The 2025 guidelines strongly recommend (COR 1) screening for primary aldosteronism in ALL patients with resistant hypertension, regardless of whether hypokalemia is present (Section 3.2.3).
+                        
+                        Critically, per the new guidelines, Sarah can remain on her current medications for this initial screening, minimizing barriers and delays.`
+                    },
+                    {
+                        title: "Visit 3: PA Screening Protocol",
+                        scenario: `You've decided to screen for primary aldosteronism.
+                        
+                        <strong>Current Medications:</strong> Lisinopril 40mg, Amlodipine 10mg, Chlorthalidone 25mg`,
+                        
+                        question: "Per the 2025 guidelines, what is the correct approach to PA screening while on these medications?",
+                        options: [
+                            "Must discontinue all medications for 4 weeks before testing",
+                            "Must stop ACE inhibitor and diuretic but can continue CCB",
+                            "Can perform screening while continuing all current medications",
+                            "Only need to stop spironolactone if patient were taking it"
+                        ],
+                        correct: 2,
+                        explanation: `<strong>Correct!</strong> This is a critical 2025 update (COR 1): patients can remain on their current medications (including ACE inhibitors, ARBs, diuretics, and CCBs) for initial PA screening with aldosterone/renin ratio. This minimizes barriers and delays (Section 3.2.3.1).
+                        
+                        You order PAC and PRA. Results show: PAC 18 ng/dL, PRA <0.6 ng/mL/h, ARR >30 (positive screen). You refer to endocrinology and initiate spironolactone 25mg daily with close potassium monitoring.`
+                    },
+                    {
+                        title: "Visit 4: Managing MRA Side Effects (Month 5)",
+                        scenario: `Endocrinology confirmed PA due to bilateral adrenal hyperplasia. Sarah is on medical therapy.
+                        
+                        <strong>Vitals:</strong> BP 128/78 mm Hg (at goal!)
+                        <strong>Current MRA:</strong> Spironolactone 50mg daily
+                        <strong>Complaint:</strong> Significant breast tenderness`,
+                        
+                        question: "What is the best management for this MRA-related side effect?",
+                        options: [
+                            "Reduce spironolactone dose to 25mg daily",
+                            "Switch to eplerenone 50mg daily",
+                            "Add tamoxifen to counteract the gynecomastia",
+                            "Discontinue MRA therapy and maximize other agents"
+                        ],
+                        correct: 1,
+                        explanation: `<strong>Correct!</strong> Eplerenone is more selective for the mineralocorticoid receptor and less likely to cause hormonal side effects like gynecomastia compared to spironolactone. This switch maintains the beneficial effects on BP control in PA while improving tolerability.`
+                    }
+                ]
+            },
+            3: {
+                title: "Severe Hypertension, CKD, and Inpatient Pitfalls",
+                patient: {
+                    name: "Robert Rodriguez",
+                    age: 68,
+                    gender: "Male",
+                    comorbidities: ["CKD Stage 3a (baseline eGFR 55)"],
+                    medications: "Atorvastatin only"
+                },
+                visits: [
+                    {
+                        title: "Visit 1: Urgent Presentation in Clinic",
+                        scenario: `Robert presents for pre-operative evaluation for elective knee replacement.
+                        
+                        <strong>Vitals:</strong> BP 188/112 mm Hg (confirmed on repeat)
+                        <strong>Symptoms:</strong> Entirely asymptomatic (no chest pain, headache, or neurological changes)
+                        <strong>ECG:</strong> LVH, no acute ischemia
+                        <strong>STAT Labs:</strong> eGFR 54, K 4.2 mEq/L`,
+                        
+                        question: "Using 2025 terminology and guidelines, how should you classify and manage this presentation?",
+                        options: [
+                            "Hypertensive urgency - admit for IV antihypertensive therapy",
+                            "Hypertensive emergency - immediate ED transfer for IV nitroprusside",
+                            "Severe hypertension - outpatient management with oral medications",
+                            "Malignant hypertension - urgent nephrology consultation"
+                        ],
+                        correct: 2,
+                        explanation: `<strong>Correct!</strong> The 2025 guidelines use "Severe Hypertension" terminology, retiring "Hypertensive Urgency." Without acute target organ damage, the guidelines strongly recommend outpatient management with timely initiation/intensification of oral medications rather than hospitalization (Message 10).`
+                    },
+                    {
+                        title: "Visit 1 (continued): Initial Therapy Selection",
+                        scenario: `You've diagnosed severe hypertension without acute TOD. Robert has Stage 2 HTN (BP 188/112) and CKD Stage 3a.`,
+                        
+                        question: "What is the optimal initial antihypertensive approach per 2025 guidelines?",
+                        options: [
+                            "Start single agent (lisinopril 10mg) and titrate gradually",
+                            "Start two agents as single-pill combination with RAAS inhibitor",
+                            "Start three agents immediately given severity",
+                            "Start CCB monotherapy to avoid affecting kidney function"
+                        ],
+                        correct: 1,
+                        explanation: `<strong>Correct!</strong> For Stage 2 HTN (markedly elevated), the 2025 guidelines recommend initiating TWO first-line agents, preferably as a Single-Pill Combination (SPC) (Message 8). 
+                        
+                        Additionally, for adults with HTN and CKD (eGFR <60), RAAS inhibition is recommended (COR 1) even with low albuminuria to decrease CVD and delay CKD progression (Section 5.3.8).
+                        
+                        You prescribe Telmisartan/Amlodipine 40/5mg daily and arrange follow-up in 3 days. Surgery is postponed.`
+                    },
+                    {
+                        title: "Inpatient Scenario: Post-Op Day 1",
+                        scenario: `Two months later, Robert is admitted for rescheduled knee replacement. Pre-op BP was controlled (128/76).
+                        
+                        <strong>Post-Op Day 1:</strong> Due to pain and volume expansion, BP is 190/100 mm Hg
+                        <strong>Assessment:</strong> No signs of acute TOD
+                        <strong>Overnight Order:</strong> Cross-cover resident ordered "IV Hydralazine 10mg PRN for SBP >180"
+                        
+                        Patient received one dose. BP dropped to 110/60. Creatinine increased (AKI).`,
+                        
+                        question: "According to 2025 guidelines, what is the assessment of this management?",
+                        options: [
+                            "Appropriate use of IV antihypertensives for severe hypertension",
+                            "Should have used IV labetalol instead of hydralazine",
+                            "Harmful practice - IV/rapid-acting agents contraindicated without acute TOD",
+                            "Correct approach but dose was too high"
+                        ],
+                        correct: 2,
+                        explanation: `<strong>Correct!</strong> This is a CRITICAL 2025 update: For hospitalized adults with severe HTN without acute TOD, intermittent use of IV or rapid-acting oral antihypertensives to acutely reduce BP is NOT recommended and potentially harmful (Class 3: Harm) (Section 6.2).
+                        
+                        The rapid BP reduction likely contributed to the AKI. Correct management involves optimizing analgesia, addressing volume status, ensuring home medications are administered, and aiming for gradual control.`
+                    },
+                    {
+                        title: "Visit 3: Post-Discharge Follow-up (Month 3)",
+                        scenario: `Robert returns after hospital discharge. His AKI has resolved.
+                        
+                        <strong>Vitals:</strong> BP 134/84 mm Hg
+                        <strong>Labs:</strong> eGFR back to baseline (55)
+                        <strong>Current Regimen:</strong> Telmisartan/Amlodipine 80/5mg daily
+                        
+                        He mentions his wife bought potassium-based salt substitute to help his BP.`,
+                        
+                        question: "What counseling is critical regarding the salt substitute?",
+                        options: [
+                            "Encourage liberal use as it's proven to lower BP",
+                            "It's fine but probably won't make much difference",
+                            "Contraindicated due to CKD and concurrent ARB use",
+                            "Safe to use if he monitors potassium monthly"
+                        ],
+                        correct: 2,
+                        explanation: `<strong>Correct!</strong> Potassium-based salt substitutes are contraindicated in patients with CKD and those taking RAAS inhibitors (like ARBs) due to risk of hyperkalemia (Section 5.1). 
+                        
+                        While these substitutes have a COR 2a recommendation for BP reduction in the general population, they must be avoided in patients with reduced kidney function or on medications that increase potassium.`
+                    }
+                ]
+            },
+            4: {
+                title: "Acute Neurological Emergency and Precision BP Control",
+                patient: {
+                    name: "Arthur O'Connell",
+                    age: 72,
+                    gender: "Male",
+                    occupation: "Retired Police Chief",
+                    comorbidities: [
+                        "Longstanding Hypertension (poor adherence)",
+                        "Hyperlipidemia",
+                        "Benign Prostatic Hyperplasia",
+                        "Osteoarthritis",
+                        "Former smoker (quit 10 years ago, 40 pack-years)"
+                    ],
+                    medications: "Amlodipine 5mg daily (takes intermittently), Atorvastatin 20mg daily, Tamsulosin 0.4mg daily, Acetaminophen 650mg PRN"
+                },
+                visits: [
+                    {
+                        title: "ICU Day 1: Acute Intracerebral Hemorrhage",
+                        scenario: `Mr. O'Connell is brought by ambulance after being found with acute right-sided weakness and confusion.
+                        
+                        <strong>Vitals:</strong> BP 205/105 mm Hg, HR 88, RR 18, O2 sat 96% on room air
+                        <strong>Neurological Exam:</strong> Right hemiparesis, expressive aphasia, NIHSS 14
+                        <strong>STAT Head CT:</strong> Acute left basal ganglia intracerebral hemorrhage (ICH), 25mL volume, no midline shift
+                        
+                        <div class="new-guideline"><strong>Key Term:</strong> ICH = Intracerebral Hemorrhage (bleeding within brain tissue)</div>`,
+                        
+                        question: "According to 2025 guidelines, what is the recommended BP management for this patient with spontaneous ICH and SBP 205 mm Hg?",
+                        options: [
+                            "Maintain SBP <180 mm Hg to prevent hematoma expansion",
+                            "Immediately lower SBP to target 130 to <140 mm Hg",
+                            "Allow permissive hypertension (SBP <220) for cerebral perfusion",
+                            "Target SBP <160 mm Hg as a compromise between perfusion and bleeding",
+                            "Defer BP treatment until neurosurgery consultation completed"
+                        ],
+                        correct: 1,
+                        explanation: `<strong>Correct!</strong> The 2025 guidelines provide a significant update: for patients with spontaneous ICH and SBP between 150-220 mm Hg, it is now recommended (COR 2a) to immediately lower SBP to a target of 130 to <140 mm Hg to improve functional outcomes (Section 5.3.9.1).
+                        
+                        This represents a shift toward more intensive BP lowering in acute ICH based on recent trial evidence showing improved outcomes with tighter control.`
+                    },
+                    {
+                        title: "ICU Day 2: Managing BP Lability",
+                        scenario: `Mr. O'Connell is on IV Nicardipine infusion. The nursing staff reports difficulty maintaining target range.
+                        
+                        <strong>BP Log (last 6 hours):</strong> 
+                        - 0800: 158/92 mm Hg → Nicardipine increased
+                        - 0900: 122/58 mm Hg → Nicardipine decreased
+                        - 1000: 165/95 mm Hg → Nicardipine increased again
+                        - 1100: 118/55 mm Hg → Nicardipine held
+                        - 1200: 162/90 mm Hg → Restarted
+                        
+                        <strong>Current Infusion:</strong> Nicardipine 7.5 mg/hr, titrating q15 minutes`,
+                        
+                        question: "What is the most important principle for BP management in this ICH patient per 2025 guidelines?",
+                        options: [
+                            "Switch to oral antihypertensives for more stable control",
+                            "Add a second IV agent to achieve target more rapidly",
+                            "Prioritize smooth, nonlabile control avoiding peaks and variability",
+                            "Accept wider BP ranges (120-160) to reduce nursing workload",
+                            "Use bolus dosing of IV labetalol for faster corrections"
+                        ],
+                        correct: 2,
+                        explanation: `<strong>Correct!</strong> The 2025 guidelines emphasize (COR 2a) that careful titration to ensure SMOOTH, NONLABILE, and SUSTAINED control of BP, avoiding peaks and large variability, is beneficial for improving functional outcomes in ICH (Section 5.3.9.1).
+                        
+                        Additionally, the guidelines mandate stopping or reducing antihypertensives if SBP drops <130 mm Hg during the acute phase to avoid harm from hypoperfusion.`
+                    },
+                    {
+                        title: "ICU Day 3: Transition Planning",
+                        scenario: `Mr. O'Connell's neurological status is stable. Planning for transition to oral medications.
+                        
+                        <strong>Current Status:</strong> 
+                        - BP on Nicardipine: 135/82 mm Hg (stable x12 hours)
+                        - Neurological: Improving, NIHSS now 10
+                        - Swallow evaluation: Passed, safe for PO medications
+                        - Renal function: Cr 1.2 mg/dL (baseline 1.0)
+                        
+                        <strong>Team Discussion:</strong> Neurosurgery recommends maintaining tight BP control`,
+                        
+                        question: "When transitioning from IV to oral antihypertensives in acute ICH, what is the critical threshold to avoid per 2025 guidelines?",
+                        options: [
+                            "Do not allow SBP to exceed 150 mm Hg during transition",
+                            "Maintain DBP >60 mm Hg to ensure cerebral perfusion",
+                            "Stop or reduce medications if SBP drops <130 mm Hg",
+                            "Keep mean arterial pressure (MAP) >65 mm Hg",
+                            "Avoid any BP medication changes for 24 hours after stopping IV"
+                        ],
+                        correct: 2,
+                        explanation: `<strong>Correct!</strong> The 2025 guidelines specifically state that antihypertensive medications should be stopped or reduced if SBP drops <130 mm Hg during the acute ICH phase (Section 5.3.9.1). This prevents harm from cerebral hypoperfusion while maintaining the benefit of controlled BP in the 130-140 range.
+                        
+                        This precise window requires careful monitoring during the IV to oral transition period.`
+                    },
+                    {
+                        title: "Month 3: Post-Discharge Clinic Visit",
+                        scenario: `Mr. O'Connell completed inpatient rehabilitation. His deficits are improving, but family notes memory issues.
+                        
+                        <strong>Vitals:</strong> BP 138/86 mm Hg, HR 72
+                        <strong>Current Medications:</strong> 
+                        - Amlodipine 10mg daily
+                        - Lisinopril 20mg daily
+                        - Atorvastatin 80mg daily (increased)
+                        - Tamsulosin 0.4mg daily
+                        - Aspirin 81mg daily (started post-stroke)
+                        
+                        <strong>Family Concern:</strong> "He's more forgetful, repeats questions, misplaces things"
+                        <strong>Montreal Cognitive Assessment (MoCA):</strong> 22/30 (mild impairment)`,
+                        
+                        question: "What BP target is specifically recommended by 2025 guidelines to prevent cognitive decline in this patient?",
+                        options: [
+                            "SBP <150 mm Hg is sufficient for elderly patients",
+                            "SBP <140 mm Hg to balance stroke and fall risk",
+                            "BP <130/80 mm Hg to prevent cognitive impairment and dementia",
+                            "Allow higher BP (140-150) to maintain cerebral perfusion post-stroke",
+                            "Target should be individualized based on orthostatic measurements"
+                        ],
+                        correct: 2,
+                        explanation: `<strong>Correct!</strong> The 2025 guidelines specifically recommend (COR 1) maintaining BP <130/80 mm Hg to prevent mild cognitive impairment and dementia (Section 5.3.9.4). This is particularly crucial for Mr. O'Connell given his recent ICH and emerging cognitive concerns.
+                        
+                        This target serves dual purposes: secondary stroke prevention and cognitive protection.`
+                    },
+                    {
+                        title: "Month 4: Optimizing Therapy",
+                        scenario: `Despite medication adherence, Mr. O'Connell's BP remains above target.
+                        
+                        <strong>Vitals:</strong> BP 136/84 mm Hg (average of 3 readings)
+                        <strong>HBPM Log (7-day average):</strong> 134/82 mm Hg
+                        <strong>Labs:</strong> K 4.1 mEq/L, Cr 1.1 mg/dL, eGFR 62
+                        <strong>Cognitive Status:</strong> Family reports continued mild forgetfulness
+                        
+                        <strong>Current Regimen:</strong> Already on ACE inhibitor and CCB at appropriate doses`,
+                        
+                        question: "To achieve the <130/80 target for cognitive and stroke protection, what is the best next medication to add?",
+                        options: [
+                            "Beta-blocker (metoprolol) for additional BP reduction",
+                            "Increase lisinopril to 40mg daily first",
+                            "Chlorthalidone 12.5mg daily as preferred thiazide-type diuretic",
+                            "Spironolactone 25mg daily for resistant hypertension",
+                            "Hydralazine 25mg TID for additional vasodilation"
+                        ],
+                        correct: 2,
+                        explanation: `<strong>Correct!</strong> Adding Chlorthalidone 12.5mg daily is the optimal choice. The 2025 guidelines prefer chlorthalidone over HCTZ as a more potent, longer-acting thiazide-type diuretic. For this patient needing to achieve <130/80 for both stroke prevention and cognitive protection, adding a diuretic as the third agent follows the standard treatment algorithm.
+                        
+                        Spironolactone would be premature (reserved for resistant HTN on 3+ drugs including a diuretic), and hydralazine is not a first-line agent.`
+                    }
+                ]
+            },
+            5: {
+                title: "Navigating Chronic Hypertension Through Pregnancy",
+                patient: {
+                    name: "Sofia Ramirez",
+                    age: 34,
+                    gender: "Female",
+                    occupation: "High School Biology Teacher",
+                    comorbidities: [
+                        "Chronic Hypertension (diagnosed age 30)",
+                        "Migraine with aura",
+                        "Polycystic Ovary Syndrome (PCOS)",
+                        "Vitamin D deficiency",
+                        "Generalized Anxiety Disorder"
+                    ],
+                    medications: "Telmisartan 80mg daily, Atenolol 50mg daily, Metformin 500mg BID, Vitamin D3 2000 IU daily, Sertraline 50mg daily"
+                },
+                visits: [
+                    {
+                        title: "Preconception Counseling",
+                        scenario: `Sofia presents to establish care and discuss pregnancy planning within the next year.
+                        
+                        <strong>Vitals:</strong> BP 132/84 mm Hg, HR 68, BMI 28
+                        <strong>Labs:</strong> 
+                        - Cr 0.8 mg/dL, K 4.0 mEq/L
+                        - TSH 2.1 mIU/L (normal)
+                        - A1c 5.6% (on metformin for PCOS)
+                        - Vitamin D: 28 ng/mL (slightly low)
+                        
+                        <strong>Current BP Control:</strong> Well-controlled on current regimen
+                        <strong>Patient Statement:</strong> "My husband and I want to start trying in 2-3 months"`,
+                        
+                        question: "Which of Sofia's current medications are contraindicated in pregnancy per 2025 guidelines?",
+                        options: [
+                            "Only Telmisartan (ARB) is contraindicated",
+                            "Telmisartan and Metformin are contraindicated",
+                            "Telmisartan and Atenolol are both Class 3: Harm in pregnancy",
+                            "All current medications need to be stopped",
+                            "Only Sertraline needs to be discontinued"
+                        ],
+                        correct: 2,
+                        explanation: `<strong>Correct!</strong> The 2025 guidelines list both Telmisartan (ARB) and Atenolol as Class 3: Harm in pregnancy (Section 5.5, Table 1). This is a KEY UPDATE - Atenolol has been newly added to the contraindicated list due to associations with fetal growth restriction.
+                        
+                        Metformin is safe and often continued for PCOS/glucose control. Sertraline can be continued with appropriate counseling about risks/benefits.`
+                    },
+                    {
+                        title: "Medication Transition Visit",
+                        scenario: `Sofia returns 2 weeks later to transition to pregnancy-safe medications.
+                        
+                        <strong>Current Plan:</strong> 
+                        - Discontinue Telmisartan and Atenolol
+                        - Need pregnancy-safe BP control AND migraine prophylaxis
+                        
+                        <strong>BP Today:</strong> 136/86 mm Hg (off meds x 3 days per instruction)
+                        <strong>Patient Concern:</strong> "I've had 2 migraines this week since stopping atenolol"`,
+                        
+                        question: "What medication would best address both her hypertension and provide migraine prophylaxis safely in pregnancy?",
+                        options: [
+                            "Methyldopa 250mg BID - oldest and safest option",
+                            "Labetalol 100mg BID - alpha and beta blockade safe in pregnancy",
+                            "Nifedipine XL 30mg daily - CCB for both indications",
+                            "Propranolol 80mg BID - better for migraines than labetalol",
+                            "Verapamil 180mg daily - addresses both conditions"
+                        ],
+                        correct: 1,
+                        explanation: `<strong>Correct!</strong> Labetalol is an excellent choice as it's pregnancy-safe (unlike atenolol) and provides beta-blockade for migraine prophylaxis. The 2025 guidelines list labetalol as a preferred agent in pregnancy.
+                        
+                        While propranolol is pregnancy-safe, labetalol is preferred for hypertension. Methyldopa doesn't help migraines. CCBs are less effective for migraine prophylaxis than beta-blockers.`
+                    },
+                    {
+                        title: "Early Pregnancy Management (10 weeks gestation)",
+                        scenario: `Sofia is now pregnant! She's tolerating Labetalol 100mg BID.
+                        
+                        <strong>Vitals:</strong> BP 144/92 mm Hg, HR 78
+                        <strong>HBPM Average (7 days):</strong> 140/90 mm Hg
+                        <strong>Labs:</strong> Normal prenatal panel
+                        <strong>Symptoms:</strong> Morning sickness, but no headaches or visual changes
+                        <strong>OB Plan:</strong> Has initiated prenatal vitamins`,
+                        
+                        question: "According to 2025 guidelines, what is the BP target for pregnant patients with chronic hypertension?",
+                        options: [
+                            "SBP 120-160 mm Hg and DBP 80-110 mm Hg (wide range acceptable)",
+                            "BP <140/90 mm Hg per new recommendations",
+                            "BP <130/80 mm Hg (same as non-pregnant adults)",
+                            "SBP <160 mm Hg (only treat severe hypertension)",
+                            "BP 140-150/90-100 mm Hg (mild hypertension acceptable)"
+                        ],
+                        correct: 1,
+                        explanation: `<strong>Correct!</strong> The 2025 guidelines clearly state (COR 1) that pregnant individuals with chronic hypertension should receive antihypertensive therapy to achieve BP <140/90 mm Hg (Section 5.5).
+                        
+                        Sofia's current BP of 144/92 exceeds this target, requiring medication adjustment. You should increase Labetalol to 200mg BID.`
+                    },
+                    {
+                        title: "Second Trimester - Preeclampsia Prevention",
+                        scenario: `Sofia is now 14 weeks pregnant. BP is controlled on Labetalol 200mg BID.
+                        
+                        <strong>Vitals:</strong> BP 134/82 mm Hg
+                        <strong>Weight:</strong> Appropriate weight gain
+                        <strong>Labs:</strong> Urine protein negative, platelets normal
+                        <strong>Current Medications:</strong>
+                        - Labetalol 200mg BID
+                        - Prenatal vitamins
+                        - Vitamin D3 2000 IU daily
+                        - Metformin 500mg BID (continued for PCOS/glucose)`,
+                        
+                        question: "Per 2025 guidelines, what additional medication should be started NOW for preeclampsia prevention?",
+                        options: [
+                            "Calcium supplementation 1g daily",
+                            "Low-dose aspirin 81mg daily",
+                            "Progesterone supplementation",
+                            "Magnesium supplementation 400mg daily",
+                            "Fish oil supplementation for omega-3s"
+                        ],
+                        correct: 1,
+                        explanation: `<strong>Correct!</strong> The 2025 guidelines recommend (COR 1) low-dose aspirin starting in the late first trimester (12-16 weeks) for individuals with chronic hypertension to reduce preeclampsia risk (Section 5.5).
+                        
+                        At 14 weeks, Sofia should start aspirin 81mg daily immediately. This has strong evidence for reducing preeclampsia, preterm birth, and perinatal mortality in high-risk pregnancies.`
+                    },
+                    {
+                        title: "Labor & Delivery: Acute Severe Hypertension",
+                        scenario: `Sofia is admitted at 39 weeks for induction. During active labor, an acute situation develops.
+                        
+                        <strong>Baseline admission BP:</strong> 128/78 mm Hg (well-controlled)
+                        <strong>Current situation (during contractions):</strong>
+                        - 1400: BP 168/112 mm Hg, severe headache onset
+                        - 1410: BP 172/115 mm Hg (repeat), headache worsening
+                        - Visual changes: "Seeing spots"
+                        - Labs: Platelets 145K, AST/ALT mildly elevated
+                        
+                        <div class="new-guideline"><strong>Key Term:</strong> This represents acute severe hypertension in pregnancy</div>`,
+                        
+                        question: "Per 2025 guidelines, within what timeframe must antihypertensive treatment be initiated for severe pregnancy hypertension?",
+                        options: [
+                            "Immediately (within 10 minutes) given symptoms",
+                            "Within 30-60 minutes of confirmed severe hypertension",
+                            "Within 2 hours if persistent",
+                            "Within 15 minutes for symptomatic patients only",
+                            "Can wait until after delivery if imminent"
+                        ],
+                        correct: 1,
+                        explanation: `<strong>Correct!</strong> The 2025 guidelines mandate (COR 1) that severe hypertension in pregnancy (SBP ≥160 or DBP ≥110) confirmed on repeat measurement must be treated with antihypertensive medication within 30 to 60 minutes to prevent maternal stroke and other adverse events (Section 5.5).
+                        
+                        Treatment options include IV labetalol, IV hydralazine, or immediate-release oral nifedipine. This is a true obstetric emergency requiring prompt action.`
+                    }
+                ]
+            },
+            6: {
+                title: "Refractory Hypertension and Advanced Therapies",
+                patient: {
+                    name: "Michael Davis",
+                    age: 58,
+                    gender: "Male",
+                    occupation: "Long-haul Truck Driver",
+                    comorbidities: [
+                        "Morbid Obesity (BMI 42)",
+                        "Resistant Hypertension",
+                        "Obstructive Sleep Apnea (AHI 45, declined CPAP)",
+                        "Type 2 Diabetes (A1c 7.8%)",
+                        "Chronic Venous Insufficiency"
+                    ],
+                    medications: "Olmesartan 40mg daily, Amlodipine 10mg daily, Chlorthalidone 25mg daily, Spironolactone 25mg daily, Metformin 1000mg BID, Empagliflozin 25mg daily, Aspirin 81mg daily"
+                },
+                visits: [
+                    {
+                        title: "Visit 1: Persistent Resistant Hypertension",
+                        scenario: `Michael has confirmed resistant hypertension. Previous workup negative for primary aldosteronism and renal artery stenosis.
+                        
+                        <strong>Vitals:</strong> BP 155/95 mm Hg, HR 82, Weight 340 lbs
+                        <strong>HBPM Average (2 weeks):</strong> 150/92 mm Hg
+                        <strong>Labs:</strong> K 4.2 mEq/L (on spironolactone), Cr 1.0 mg/dL, A1c 7.8%
+                        
+                        <strong>Adherence:</strong> Confirmed via pharmacy refill data
+                        <strong>Lifestyle:</strong> "I eat truck stop food daily. Can't use CPAP in my sleeper cab."
+                        
+                        <div class="new-guideline"><strong>Key Terms:</strong> 
+                        - AHI = Apnea-Hypopnea Index (45 = severe OSA)
+                        - CPAP = Continuous Positive Airway Pressure
+                        - OSA = Obstructive Sleep Apnea</div>`,
+                        
+                        question: "What untreated condition is likely the MOST significant contributor to his resistant hypertension?",
+                        options: [
+                            "Uncontrolled diabetes with A1c 7.8%",
+                            "High dietary sodium from truck stop food",
+                            "Untreated severe obstructive sleep apnea",
+                            "Chronic venous insufficiency causing fluid retention",
+                            "Medication non-adherence despite refill data"
+                        ],
+                        correct: 2,
+                        explanation: `<strong>Correct!</strong> Untreated severe OSA is a major contributor to resistant hypertension. The 2025 guidelines state that CPAP treatment can be useful (COR 2a) in reducing BP in this population (Section 3.2.3.3).
+                        
+                        With an AHI of 45 (severe OSA) and CPAP non-use, this is likely the primary driver of his resistance. The guidelines emphasize addressing ALL secondary causes before considering advanced therapies.`
+                    },
+                    {
+                        title: "Visit 2: Implementing Novel Interventions",
+                        scenario: `Michael returns after 2 months. Still struggling with CPAP and diet.
+                        
+                        <strong>New Interventions Attempted:</strong>
+                        - Started auto-titrating CPAP (portable for truck)
+                        - Wife now packs meals with potassium-salt substitute
+                        - Considering GLP-1 agonist for weight loss
+                        
+                        <strong>Current Status:</strong>
+                        - CPAP usage: 3-4 hours/night (improving)
+                        - Weight: 335 lbs (5 lb loss)
+                        - BP: 148/90 mm Hg`,
+                        
+                        question: "Regarding potassium-salt substitutes in this patient on olmesartan and spironolactone, what does the 2025 guideline recommend?",
+                        options: [
+                            "Absolutely contraindicated due to hyperkalemia risk",
+                            "Can use with careful potassium monitoring",
+                            "Should discontinue spironolactone first",
+                            "Only use if potassium <4.0 mEq/L",
+                            "Switch to potassium-free salt alternatives instead"
+                        ],
+                        correct: 1,
+                        explanation: `<strong>Correct!</strong> The 2025 guidelines state potassium-salt substitutes are useful (COR 2a) for BP reduction when salt intake is related to home cooking. While patients on ARBs and MRAs need monitoring, it's not absolutely contraindicated (Section 5.1).
+                        
+                        With his current K of 4.2 mEq/L, he can use it with regular monitoring. This represents a practical approach to lifestyle modification in challenging circumstances.`
+                    },
+                    {
+                        title: "Visit 3: CPAP Success but Persistent Elevation",
+                        scenario: `Six months later, Michael has made significant progress but BP remains elevated.
+                        
+                        <strong>Improvements:</strong>
+                        - CPAP compliance: >5 hours/night consistently
+                        - Weight: 320 lbs (20 lb total loss)
+                        - Started semaglutide 1mg weekly (GLP-1 agonist)
+                        - Using potassium-salt substitute regularly
+                        
+                        <strong>Current BP:</strong> 142/88 mm Hg (improved but above goal)
+                        <strong>Medications:</strong> Still on 4-drug regimen at maximum doses
+                        <strong>Labs:</strong> K 4.4 mEq/L, Cr 1.0 mg/dL`,
+                        
+                        question: "Before considering renal denervation (RDN), what does the 2025 guideline REQUIRE?",
+                        options: [
+                            "Trial of at least 5 antihypertensive medications",
+                            "Detailed evaluation confirming all secondary causes addressed",
+                            "Weight loss to BMI <35 first",
+                            "Ambulatory BP monitoring showing >20% nocturnal dipping",
+                            "Genetic testing for hereditary hypertension"
+                        ],
+                        correct: 1,
+                        explanation: `<strong>Correct!</strong> The 2025 guidelines state that before RDN consideration, a detailed evaluation ensuring ALL secondary causes are addressed and interfering medications removed must be completed (Section 5.6).
+                        
+                        Michael has now addressed his OSA (major secondary cause), optimized lifestyle, and confirmed adherence. He may now be appropriate for RDN evaluation.`
+                    },
+                    {
+                        title: "Visit 4: Multidisciplinary RDN Evaluation",
+                        scenario: `Michael was referred to a Hypertension Center with an RDN program.
+                        
+                        <strong>Multidisciplinary Team Assessment:</strong>
+                        - Confirmed resistant HTN despite addressing OSA
+                        - Optimized medical therapy (4 drugs including diuretic)
+                        - No anatomical contraindications on renal imaging
+                        - Psychological assessment: Appropriate candidate
+                        
+                        <strong>Current BP:</strong> 140/86 mm Hg
+                        <strong>Team Recommendation:</strong> Suitable for RDN
+                        
+                        <div class="new-guideline"><strong>Key Term:</strong> RDN = Renal Denervation (catheter-based procedure to disrupt renal sympathetic nerves)</div>`,
+                        
+                        question: "Per 2025 guidelines, what is REQUIRED for all patients being considered for RDN?",
+                        options: [
+                            "Evaluation by nephrology for kidney function clearance",
+                            "Failure of at least 6 antihypertensive medications",
+                            "Evaluation by a multidisciplinary team with HTN and RDN expertise",
+                            "Psychiatric clearance for procedural anxiety",
+                            "Insurance pre-authorization documentation"
+                        ],
+                        correct: 2,
+                        explanation: `<strong>Correct!</strong> The 2025 guidelines mandate (COR 1) that all patients considered for RDN should be evaluated by a multidisciplinary team with expertise in resistant hypertension AND RDN (Section 5.6).
+                        
+                        This ensures appropriate patient selection and optimal outcomes. The team typically includes hypertension specialists, interventionalists, and nursing coordinators.`
+                    },
+                    {
+                        title: "Visit 5: Shared Decision-Making for RDN",
+                        scenario: `Michael returns after the specialty evaluation to discuss options with you.
+                        
+                        <strong>RDN Team Report:</strong>
+                        - Expected BP reduction: 5-10 mm Hg (modest)
+                        - Procedural risks: <1% major complications
+                        - Alternative: Could trial minoxidil as 5th agent
+                        
+                        <strong>Patient Concerns:</strong>
+                        "I'm nervous about the procedure, but also tired of taking so many pills. My wife thinks I should try the procedure. What are the real benefits versus just adding another medication?"`,
+                        
+                        question: "According to 2025 guidelines, what MUST be discussed as part of RDN shared decision-making?",
+                        options: [
+                            "Only the potential benefits of BP reduction",
+                            "Success rates from the latest clinical trials only",
+                            "Benefits of modest BP lowering and procedural risks vs continuing complex medical therapy",
+                            "Cost-effectiveness analysis and insurance coverage",
+                            "Requirement to continue all current medications even after RDN"
+                        ],
+                        correct: 2,
+                        explanation: `<strong>Correct!</strong> The 2025 guidelines mandate (COR 1) that the benefits of lowering BP via RDN (expected to be MODEST and ADJUNCTIVE) and potential procedural risks compared with continuing complex medical therapy MUST be discussed as part of shared decision-making (Section 5.6).
+                        
+                        Key points: RDN provides modest BP reduction (not cure), medications usually continue, and it's an adjunct to (not replacement for) medical therapy. Michael ultimately chooses to proceed with RDN after understanding these factors.`
+                    }
+                ]
+            }
+        };
+
+        let currentCase = null;
+        let currentVisit = 0;
+        let score = 0;
+        let totalQuestions = 0;
+        let selectedOption = null;
+        let answeredQuestions = [];
+        let completedCases = new Set(); // Track which cases have been completed
+        
+        function openLink(url) {
+            window.open(url, '_blank');
+        }
+
+        function selectCase(caseNum) {
+            currentCase = caseNum;
+            currentVisit = 0;
+            score = 0;
+            totalQuestions = cases[caseNum].visits.length;
+            answeredQuestions = [];
+            
+            // Update button states
+            document.querySelectorAll('.case-btn').forEach((btn, index) => {
+                btn.classList.remove('active');
+                // Check if this case was previously completed
+                if (completedCases.has(index + 1)) {
+                    btn.classList.add('completed');
+                } else {
+                    btn.classList.remove('completed');
+                }
+                if (index + 1 === caseNum) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            loadCaseIntro();
+        }
+
+        function loadCaseIntro() {
+            const caseData = cases[currentCase];
+            const content = document.getElementById('content');
+            
+            content.innerHTML = `
+                <div class="case-intro">
+                    <h2>${caseData.title}</h2>
+                    <div class="patient-info">
+                        <h3>Patient Information</h3>
+                        <div class="info-grid">
+                            <div class="info-item"><strong>Name:</strong> ${caseData.patient.name}</div>
+                            <div class="info-item"><strong>Age:</strong> ${caseData.patient.age} years old</div>
+                            <div class="info-item"><strong>Gender:</strong> ${caseData.patient.gender}</div>
+                            <div class="info-item"><strong>Occupation:</strong> ${caseData.patient.occupation}</div>
+                        </div>
+                        <div style="margin-top: 15px;">
+                            <div class="info-item"><strong>Comorbidities:</strong> ${caseData.patient.comorbidities.join(', ')}</div>
+                            <div class="info-item"><strong>Current Medications:</strong> ${caseData.patient.medications}</div>
+                        </div>
+                    </div>
+                    <button class="submit-btn" onclick="startCase()">Begin Case</button>
+                </div>
+            `;
+        }
+
+        function startCase() {
+            loadVisit();
+        }
+
+        function loadVisit() {
+            const caseData = cases[currentCase];
+            const visit = caseData.visits[currentVisit];
+            const content = document.getElementById('content');
+            
+            content.innerHTML = `
+                <div class="visit-section">
+                    <div class="visit-header">
+                        <h3>${visit.title}</h3>
+                        <p>Question ${currentVisit + 1} of ${totalQuestions}</p>
+                    </div>
+                    
+                    <div class="clinical-data">
+                        <h4>Clinical Presentation</h4>
+                        <div>${visit.scenario}</div>
+                    </div>
+                    
+                    <div class="question-box">
+                        <h4>${visit.question}</h4>
+                        <div class="options">
+                            ${visit.options.map((option, index) => `
+                                <button class="option" onclick="selectOption(${index})" id="option-${index}">
+                                    ${String.fromCharCode(65 + index)}. ${option}
+                                </button>
+                            `).join('')}
+                        </div>
+                        <button class="submit-btn" id="submitBtn" onclick="submitAnswer()" disabled>Submit Answer</button>
+                    </div>
+                    
+                    <div class="feedback" id="feedback"></div>
+                    <button class="next-btn" id="nextBtn" onclick="nextVisit()">Continue →</button>
+                </div>
+                
+                <div class="case-complete" id="caseComplete">
+                    <h3>🎉 Case Complete!</h3>
+                    <div class="score-display">Your Score: <span id="finalScore"></span></div>
+                    <div class="final-feedback" id="finalFeedback"></div>
+                </div>
+            `;
+            
+            selectedOption = null;
+        }
+
+        function selectOption(index) {
+            // Remove previous selection
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Add selection to clicked option
+            document.getElementById(`option-${index}`).classList.add('selected');
+            selectedOption = index;
+            
+            // Enable submit button
+            document.getElementById('submitBtn').disabled = false;
+        }
+
+        function submitAnswer() {
+            if (selectedOption === null) return;
+            
+            const caseData = cases[currentCase];
+            const visit = caseData.visits[currentVisit];
+            const isCorrect = selectedOption === visit.correct;
+            
+            // Track answer
+            answeredQuestions.push({
+                question: currentVisit,
+                correct: isCorrect
+            });
+            
+            if (isCorrect) {
+                score++;
+            }
+            
+            // Disable further selection
+            document.querySelectorAll('.option').forEach((opt, index) => {
+                opt.onclick = null;
+                opt.style.cursor = 'default';
+                
+                if (index === visit.correct) {
+                    opt.classList.add('correct');
+                } else if (index === selectedOption && !isCorrect) {
+                    opt.classList.add('incorrect');
+                }
+            });
+            
+            // Show feedback
+            const feedback = document.getElementById('feedback');
+            feedback.className = isCorrect ? 'feedback correct' : 'feedback incorrect';
+            feedback.innerHTML = `
+                <h5>${isCorrect ? '✓ Correct!' : '✗ Incorrect'}</h5>
+                <div class="new-guideline">
+                    <strong>2025 Guideline Update:</strong>
+                    <p>${visit.explanation}</p>
+                </div>
+            `;
+            feedback.style.display = 'block';
+            
+            // Disable submit button and show next button
+            document.getElementById('submitBtn').style.display = 'none';
+            document.getElementById('nextBtn').style.display = 'block';
+        }
+
+        function nextVisit() {
+            currentVisit++;
+            
+            if (currentVisit < cases[currentCase].visits.length) {
+                loadVisit();
+            } else {
+                showCaseComplete();
+            }
+        }
+
+        function showCaseComplete() {
+            const caseComplete = document.getElementById('caseComplete');
+            const percentage = Math.round((score / totalQuestions) * 100);
+            
+            // Hide visit section
+            document.querySelector('.visit-section').style.display = 'none';
+            
+            // Show completion
+            caseComplete.style.display = 'block';
+            document.getElementById('finalScore').textContent = `${score}/${totalQuestions} (${percentage}%)`;
+            
+            // Generate final feedback
+            let feedbackHtml = '<h4>Case Summary & Key Learning Points</h4>';
+            
+            if (percentage === 100) {
+                feedbackHtml += '<p><strong>Excellent work!</strong> You demonstrated mastery of the 2025 ACC/AHA guidelines.</p>';
+            } else if (percentage >= 75) {
+                feedbackHtml += '<p><strong>Good performance!</strong> You showed solid understanding of the key updates.</p>';
+            } else {
+                feedbackHtml += '<p><strong>Review recommended.</strong> Consider revisiting the 2025 guideline updates.</p>';
+            }
+            
+            // Add key points based on the case
+            feedbackHtml += '<div class="key-points"><h4>Critical 2025 Updates from This Case:</h4><ul>';
+            
+            if (currentCase === 1) {
+                feedbackHtml += `
+                    <li><span class="highlight">PREVENT™ Calculator</span> replaces Pooled Cohort Equations for risk stratification</li>
+                    <li><span class="highlight">Cuffless devices</span> (smartwatches) are Class 3: No Benefit for BP management</li>
+                    <li><span class="highlight">Pharmacotherapy threshold</span>: Start meds after 6-month lifestyle trial if BP remains ≥130/80, even with CVD risk <7.5%</li>
+                    <li><span class="highlight">Potassium salt substitutes</span>: New COR 2a recommendation for BP reduction (check contraindications)</li>
+                `;
+            } else if (currentCase === 2) {
+                feedbackHtml += `
+                    <li><span class="highlight">Mandatory PA screening</span> for ALL resistant HTN, regardless of potassium level</li>
+                    <li><span class="highlight">Simplified PA screening</span>: Can continue current medications during initial testing</li>
+                    <li><span class="highlight">Chlorthalidone preferred</span> over HCTZ as more potent thiazide-type diuretic</li>
+                    <li><span class="highlight">Eplerenone alternative</span> for spironolactone-related gynecomastia</li>
+                `;
+            } else if (currentCase === 3) {
+                feedbackHtml += `
+                    <li><span class="highlight">"Severe Hypertension"</span> terminology replaces "Hypertensive Urgency"</li>
+                    <li><span class="highlight">Outpatient management</span> for severe HTN without acute TOD</li>
+                    <li><span class="highlight">Class 3: Harm</span> - IV/rapid-acting agents in hospitalized patients without acute TOD</li>
+                    <li><span class="highlight">RAAS inhibition</span> recommended for HTN + CKD even with low albuminuria</li>
+                    <li><span class="highlight">Single-pill combinations</span> preferred for Stage 2 HTN initial therapy</li>
+                `;
+            }
+            
+            feedbackHtml += '</ul></div>';
+            
+            // Add review of missed questions
+            const missedQuestions = answeredQuestions.filter(q => !q.correct);
+            if (missedQuestions.length > 0) {
+                feedbackHtml += '<div class="key-points"><h4>Review These Topics:</h4><ul>';
+                missedQuestions.forEach(q => {
+                    const visit = cases[currentCase].visits[q.question];
+                    feedbackHtml += `<li>Visit ${q.question + 1}: ${visit.title.split(':')[1]}</li>`;
+                });
+                feedbackHtml += '</ul></div>';
+            }
+            
+            feedbackHtml += `
+                <div style="margin-top: 30px; text-align: center;">
+                    <button class="submit-btn" onclick="resetToMenu()">Return to Case Selection</button>
+                </div>
+            `;
+            
+            document.getElementById('finalFeedback').innerHTML = feedbackHtml;
+            
+            // Mark case as completed and add to completed set
+            completedCases.add(currentCase);
+            
+            // Update button states to show completion
+            document.querySelectorAll('.case-btn').forEach((btn, index) => {
+                btn.classList.remove('active');
+                if (completedCases.has(index + 1)) {
+                    btn.classList.add('completed');
+                }
+            });
+        }
+
+        function resetToMenu() {
+            document.getElementById('content').innerHTML = `
+                <div class="welcome">
+                    <h2>Select Another Case</h2>
+                    <p>Choose a case above to continue your learning with the 2025 ACC/AHA hypertension guidelines.</p>
+                    <div class="key-points" style="max-width: 600px; margin: 30px auto;">
+                        <h4>Progress Summary</h4>
+                        <ul style="text-align: left;">
+                            ${[1, 2, 3, 4, 5, 6].map(caseNum => {
+                                const completed = completedCases.has(caseNum);
+                                return `<li>Case ${caseNum}: ${completed ? '✓ Completed' : 'Not started'}</li>`;
+                            }).join('')}
+                        </ul>
+                    </div>
+                </div>
+            `;
+            
+            // Update button states to maintain completion status
+            document.querySelectorAll('.case-btn').forEach((btn, index) => {
+                btn.classList.remove('active');
+                if (completedCases.has(index + 1)) {
+                    btn.classList.add('completed');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
