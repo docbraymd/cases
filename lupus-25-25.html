@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2024/2025 ACR Lupus Guidelines - Interactive Cases</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+            color: #e2e8f0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #1e293b;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            overflow: hidden;
+            border: 1px solid #334155;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .case-selector {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            padding: 25px;
+            background: #0f172a;
+            border-bottom: 2px solid #334155;
+        }
+        
+        .resource-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 20px;
+            background: #0f172a;
+            border-bottom: 2px solid #334155;
+            flex-wrap: wrap;
+        }
+
+        .case-btn, .resource-btn {
+            padding: 12px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #e2e8f0;
+            text-align: center;
+            border: none;
+        }
+        
+        .case-btn {
+            background: #1e293b;
+            border: 2px solid #a855f7;
+        }
+
+        .case-btn:hover {
+            background: #a855f7;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(168, 85, 247, 0.4);
+        }
+
+        .case-btn.active {
+            background: #9333ea;
+            color: white;
+            border-color: #9333ea;
+        }
+
+        .case-btn.completed {
+            background: #059669;
+            color: white;
+            border-color: #059669;
+        }
+        
+        .resource-btn {
+            background: #581c87;
+            border: 2px solid #9333ea;
+            min-width: 180px;
+        }
+        
+        .resource-btn:hover {
+            background: #7c3aed;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(147, 51, 234, 0.4);
+        }
+
+        .content {
+            padding: 30px;
+            min-height: 500px;
+        }
+
+        .case-intro {
+            background: #334155;
+            border-left: 5px solid #a855f7;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+
+        .case-intro h2 {
+            color: #f1f5f9;
+            margin-bottom: 15px;
+        }
+
+        .patient-info {
+            background: #1e293b;
+            border: 1px solid #475569;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .patient-info h3 {
+            color: #cbd5e1;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .info-item {
+            padding: 8px;
+            background: #0f172a;
+            border-radius: 5px;
+            color: #cbd5e1;
+        }
+
+        .info-item strong {
+            color: #c084fc;
+        }
+
+        .visit-section {
+            background: #1e293b;
+            border: 2px solid #334155;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .visit-header {
+            background: linear-gradient(135deg, #6d28d9 0%, #a855f7 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .clinical-data {
+            background: #0f172a;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 1px solid #334155;
+        }
+
+        .question-box {
+            background: #581c87;
+            border: 2px solid #a855f7;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .question-box h4 {
+            color: #f0f9ff;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .question-note {
+            color: #e9d5ff;
+            font-style: italic;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+
+        .options {
+            margin: 20px 0;
+        }
+
+        .option {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 15px;
+            margin: 10px 0;
+            background: #0f172a;
+            border: 2px solid #334155;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            color: #e2e8f0;
+        }
+
+        .option:hover {
+            background: #1e293b;
+            border-color: #c084fc;
+            transform: translateX(5px);
+        }
+
+        .option.selected {
+            background: #581c87;
+            border-color: #c084fc;
+        }
+
+        .option.correct {
+            background: #065f46;
+            border-color: #10b981;
+        }
+
+        .option.incorrect {
+            background: #7f1d1d;
+            border-color: #ef4444;
+        }
+
+        .submit-btn {
+            padding: 12px 30px;
+            background: #a855f7;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: #9333ea;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(168, 85, 247, 0.4);
+        }
+
+        .submit-btn:disabled {
+            background: #475569;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .feedback {
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .feedback.correct {
+            background: #065f46;
+            border: 2px solid #10b981;
+            color: #d1fae5;
+        }
+
+        .feedback.incorrect {
+            background: #7f1d1d;
+            border: 2px solid #ef4444;
+            color: #fee2e2;
+        }
+
+        .feedback.partial {
+            background: #713f12;
+            border: 2px solid #fbbf24;
+            color: #fef3c7;
+        }
+
+        .feedback h5 {
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            color: #f0fdf4;
+        }
+
+        .next-btn {
+            padding: 12px 30px;
+            background: #10b981;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .next-btn:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .case-complete {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 30px 0;
+            display: none;
+        }
+
+        .case-complete h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .score-display {
+            font-size: 1.5rem;
+            margin: 20px 0;
+        }
+
+        .final-feedback {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: left;
+            border: 1px solid #334155;
+        }
+
+        .key-points {
+            background: #0f172a;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 1px solid #334155;
+        }
+
+        .key-points h4 {
+            color: #c084fc;
+            margin-bottom: 10px;
+        }
+
+        .key-points ul {
+            margin-left: 20px;
+            color: #cbd5e1;
+        }
+
+        .key-points li {
+            margin: 8px 0;
+        }
+
+        .welcome {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .welcome h2 {
+            color: #f1f5f9;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .welcome p {
+            color: #94a3b8;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .highlight {
+            background: #581c87;
+            color: #e9d5ff;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+
+        .new-guideline {
+            background: #581c87;
+            border-left: 4px solid #c084fc;
+            padding: 10px 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            color: #f3e8ff;
+        }
+
+        .new-guideline strong {
+            color: #e9d5ff;
+        }
+
+        .lab-value {
+            font-family: monospace;
+            background: #0f172a;
+            padding: 2px 5px;
+            border-radius: 3px;
+            color: #fbbf24;
+        }
+
+        .clinical-note {
+            background: #312e81;
+            border: 1px solid #6366f1;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            color: #e0e7ff;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .case-selector {
+                grid-template-columns: 1fr;
+            }
+            .case-btn, .resource-btn {
+                width: 100%;
+            }
+            .header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>2024/2025 ACR Lupus Guidelines</h1>
+            <p>Interactive Case-Based Learning for Internal Medicine Residents</p>
+        </div>
+
+        <div class="case-selector">
+            <button class="case-btn" onclick="selectCase(1)">Case 1: New Onset Class IV LN</button>
+            <button class="case-btn" onclick="selectCase(2)">Case 2: LN Flare with CKD</button>
+            <button class="case-btn" onclick="selectCase(3)">Case 3: Pure Membranous LN</button>
+            <button class="case-btn" onclick="selectCase(4)">Case 4: Refractory LN</button>
+        </div>
+        
+        <div class="resource-links">
+            <button class="resource-btn" onclick="openLink('https://rheumatology.org/lupus-guideline#2024-lupus-nephritis-guideline')">2024 Lupus Nephritis Guideline</button>
+            <button class="resource-btn" onclick="openLink('https://rheumatology.org/lupus-guideline#2025-sle-guideline')">2025 SLE Guideline</button>
+            <button class="resource-btn" onclick="openLink('https://www.mdcalc.com/calc/10092/acr-eular-2010-rheumatoid-arthritis-classification-criteria')">ACR/EULAR Calculator</button>
+        </div>
+
+        <div class="content" id="content">
+            <div class="welcome">
+                <h2>Welcome to the ACR Lupus Guidelines Training Module</h2>
+                <p>Select a case above to begin. Each case presents complex scenarios incorporating the latest 2024 ACR Lupus Nephritis and 2025 SLE guidelines.</p>
+                <p>You'll make clinical decisions at critical points and receive detailed feedback based on the new recommendations.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- GLOBAL VARIABLES ---
+        let currentCase = null;
+        let currentVisit = 0;
+        let score = 0;
+        let totalQuestions = 0;
+        const completedCases = new Set();
+
+        // --- CASE DATA ---
+        const cases = {
+            1: {
+                title: "New Onset Proliferative Lupus Nephritis and Treatment Selection",
+                patient: { name: "Ms. A", age: 28, gender: "Female", occupation: "Marketing Analyst", comorbidities: ["None"], medications: "None" },
+                visits: [
+                    {
+                        title: "Visit 1: Presentation and Initial Workup",
+                        scenario: `Ms. A presents with 3 weeks of worsening fatigue, migratory polyarthralgias (wrists and knees), a new facial rash after sun exposure, and ankle swelling. She reports "foamy" urine.<br><br><strong>Vitals:</strong> T 37.5°C, BP <span class="lab-value">158/96</span> mmHg, HR 98 bpm<br><strong>Exam:</strong> Malar rash sparing nasolabial folds. Synovitis in bilateral MCPs and wrists. 2+ pitting edema in bilateral lower extremities.<br><br><strong>Initial Labs:</strong><br>• Cr <span class="lab-value">1.5</span> mg/dL (Baseline 0.7), Albumin 2.5 g/dL<br>• UA: 3+ protein, 2+ blood. Sediment: RBC casts<br>• Spot UPCR: <span class="lab-value">4.5 g/g</span><br>• Serologies: ANA 1:1280, Anti-dsDNA elevated, C3/C4 low`,
+                        questions: [
+                            {
+                                text: "Initial Management Priorities: You strongly suspect active Lupus Nephritis. According to 2024 ACR guidelines, which management steps should be initiated promptly?",
+                                note: "(Select all that apply)",
+                                type: "multiple",
+                                options: ["Initiate Hydroxychloroquine (HCQ)", "Initiate RAAS inhibition (e.g., Lisinopril)", "Administer prompt glucocorticoid treatment (e.g., pulse IV methylprednisolone) while awaiting biopsy", "Schedule urgent percutaneous kidney biopsy", "Start high-dose oral prednisone (1 mg/kg/day)"],
+                                correct: [0, 1, 2, 3],
+                                explanation: `<strong>Correct!</strong> Options A, B, C, and D are all correct. The 2024 ACR guidelines recommend:<br><br>• <strong>HCQ:</strong> Should be started in all SLE patients unless contraindicated<br>• <strong>RAAS inhibition:</strong> For proteinuria reduction and renoprotection<br>• <strong>Pulse IV GCs:</strong> Preferred over high-dose oral (Option E) for severe LN<br>• <strong>Kidney biopsy:</strong> Essential for classification and treatment guidance<br><div class="new-guideline"><strong>Key Point:</strong> Early aggressive treatment with pulse IV steroids while awaiting biopsy results improves outcomes.</div>`
+                            },
+                            {
+                                text: "Selecting Triple Therapy: Biopsy confirms ISN/RPS Class IV. Given high proteinuria (4.5 g/g), which triple therapy combination is conditionally preferred?",
+                                type: "single",
+                                options: ["GC + Mycophenolic acid analog (MPAA) + Belimumab", "GC + MPAA + Calcineurin inhibitor (CNI)", "GC + ELNT low-dose Cyclophosphamide (CYC) + Belimumab", "GC + High-dose IV CYC + Belimumab"],
+                                correct: 1,
+                                explanation: `<strong>Correct!</strong> For Class IV LN with proteinuria >3 g/g, the 2024 guidelines conditionally recommend GC + MPAA + CNI.<br><div class="new-guideline"><strong>Rationale:</strong><br>• CNIs (voclosporin or tacrolimus) show superior complete renal response rates<br>• Particularly beneficial when proteinuria >3 g/g<br>• Alternative triple therapy (MPAA + Belimumab) if CNI contraindicated</div>`
+                            }
+                        ]
+                    },
+                    {
+                        title: "Visit 2: 6-Month Follow-up",
+                        scenario: `Ms. A was initiated on triple therapy with Prednisone (tapering), MMF (3g/day), and Tacrolimus. She reports resolution of edema, rash, and arthritis.<br><br><strong>Vitals:</strong> BP 125/80 mmHg<br><strong>Labs:</strong><br>• Cr <span class="lab-value">0.9</span> mg/dL<br>• UPCR <span class="lab-value">0.4 g/g</span><br>• C3/C4 normalized<br><br><strong>Current Medications:</strong> Prednisone 7.5mg daily, MMF 1.5g BID, Tacrolimus, HCQ, Lisinopril`,
+                        questions: [
+                            {
+                                text: "Assessing Response: How would you classify the patient's renal response at this time?",
+                                type: "single",
+                                options: ["Complete Renal Response (CRR)", "Partial Renal Response (PRR)", "Inadequate Renal Response/Nonresponse", "Refractory Disease"],
+                                correct: 0,
+                                explanation: `<strong>Correct!</strong> Complete Renal Response (CRR) is defined as:<br>• UPCR <0.5-0.7 g/g (she has 0.4)<br>• eGFR ≥90 or within 10% of baseline (Cr improved from 1.5 to 0.9)<br><div class="new-guideline"><strong>Response Definitions:</strong><br>• CRR: UPCR <0.5-0.7 g/g + stable/improved eGFR<br>• PRR: ≥50% reduction in UPCR<br>• Assess at 6-12 months</div>`
+                            },
+                            {
+                                text: "Glucocorticoid Management: Ms. A is concerned about weight gain. She's on 7.5mg prednisone at 6 months. What is the recommended approach?",
+                                type: "single",
+                                options: ["Maintain 7.5mg daily as this dose is controlling her disease", "Switch to alternate-day dosing immediately", "Continue the taper, as the target dose goal is ≤5 mg/day by 6 months", "Increase the dose if she experiences any extra-renal symptoms"],
+                                correct: 2,
+                                explanation: `<strong>Correct!</strong> The guidelines recommend tapering to ≤5 mg/day prednisone equivalent by 6 months.<br><div class="new-guideline"><strong>Steroid-Sparing Approach:</strong><br>• Initial: Pulse IV methylprednisolone preferred<br>• Oral: Start ≤0.5 mg/kg/day<br>• Target: ≤5 mg/day by 6 months<br>• Goal: Minimize cumulative exposure</div>`
+                            }
+                        ]
+                    },
+                    {
+                        title: "Visit 3: 3-Year Follow-up",
+                        scenario: `Ms. A has maintained CRR for the past 3 years on triple therapy. Prednisone was tapered off at 9 months. She asks about the plan for her immunosuppression.<br><br><strong>Labs:</strong> Cr 0.8 mg/dL, UPCR 0.2 g/g<br><strong>Status:</strong> Sustained CRR for 3 years`,
+                        questions: [
+                            {
+                                text: "Duration of Therapy: What is the conditionally recommended total duration of immunosuppressive therapy (beyond HCQ)?",
+                                type: "single",
+                                options: ["1-2 years", "3-5 years", "5-10 years", "Indefinite/Lifelong"],
+                                correct: 1,
+                                explanation: `<strong>Correct!</strong> The 2024 guidelines conditionally recommend 3-5 years total duration of immunosuppressive therapy for sustained CRR.<br><div class="new-guideline"><strong>Duration Rationale:</strong><br>• Balances relapse prevention with minimizing long-term toxicity<br>• Based on studies showing higher relapse rates with shorter durations<br>• Individualize based on patient factors</div>`
+                            },
+                            {
+                                text: "Long-term Management Strategy: Which management statements are consistent with ACR guidelines?",
+                                note: "(Select all that apply)",
+                                type: "multiple",
+                                options: ["HCQ should be continued indefinitely unless contraindicated", "Proteinuria monitoring should occur every 3-6 months while in sustained remission", "RAAS inhibition can be discontinued now that proteinuria has resolved", "Consider long-term nephrotoxicity risk of CNI when deciding which agent to taper first"],
+                                correct: [0, 1, 3],
+                                explanation: `<strong>Correct!</strong> Options A, B, and D are correct:<br><br>• <strong>HCQ:</strong> Continue indefinitely for disease control and flare prevention<br>• <strong>Monitoring:</strong> Every 3-6 months even in remission<br>• <strong>RAAS inhibition:</strong> Generally continued for renoprotection (C incorrect)<br>• <strong>CNI considerations:</strong> Long-term nephrotoxicity is important when planning taper<br><div class="new-guideline"><strong>Tapering Strategy:</strong> Consider tapering CNI before MPAA due to nephrotoxicity concerns</div>`
+                            }
+                        ]
+                    }
+                ]
+            },
+            2: {
+                title: "LN Flare with Extra-renal Manifestations and Reduced eGFR",
+                patient: { name: "Mr. B", age: 45, gender: "Male", occupation: "Construction Manager", comorbidities: ["Class III LN (8 years ago)", "CKD Stage 3a"], medications: "MMF 1g BID, Hydroxychloroquine 400mg daily" },
+                visits: [
+                    {
+                        title: "Visit 1: Presentation of Flare",
+                        scenario: `Mr. B has Class III LN diagnosed 8 years ago with baseline CKD Stage 3a (Cr 1.5, eGFR 45). He achieved CRR and has been maintained on MMF and HCQ. He presents with 4 weeks of worsening polyarthritis, new diffuse rash, and fatigue.<br><br><strong>Vitals:</strong> BP 155/95 mmHg<br><strong>Exam:</strong> Synovitis in bilateral wrists. Annular, erythematous plaques on upper chest (SCLE). 1+ edema.<br><br><strong>Labs:</strong><br>• Cr <span class="lab-value">1.8</span> mg/dL (baseline 1.5), eGFR 38<br>• UPCR <span class="lab-value">1.8 g/g</span> (baseline <0.5)<br>• C3/C4 low, Anti-dsDNA elevated`,
+                        questions: [
+                            {
+                                text: "Diagnostic Approach: Mr. B has suspected LN flare with worsening kidney function. What diagnostic step is conditionally recommended?",
+                                type: "single",
+                                options: ["Empiric treatment escalation based on clinical findings", "Renal ultrasound with doppler to rule out thrombosis", "Repeat percutaneous kidney biopsy", "24-hour urine collection for creatinine clearance"],
+                                correct: 2,
+                                explanation: `<strong>Correct!</strong> The 2024 guidelines conditionally recommend repeat kidney biopsy for LN flare.<br><div class="new-guideline"><strong>Repeat Biopsy Rationale:</strong><br>• May show class transformation<br>• Distinguishes active inflammation from chronic damage<br>• Guides treatment intensity<br>• Important with worsening kidney function</div><div class="clinical-note">Biopsy confirms recurrent Class III LN with moderate activity and moderate chronicity.</div>`
+                            },
+                            {
+                                text: "Selecting Therapy for Flare: When choosing between CNI vs Belimumab to add to GC + MPAA, which factors influence the decision?",
+                                note: "(Select all that apply)",
+                                type: "multiple",
+                                options: ["Significant extra-renal manifestations (arthritis, SCLE) favor Belimumab over CNI", "Proteinuria <3g/g favors CNI over Belimumab", "eGFR ≤45 mL/min favors Belimumab over CNI", "Hypertension favors Belimumab over CNI"],
+                                correct: [0, 2, 3],
+                                explanation: `<strong>Correct!</strong> Options A, C, and D favor Belimumab:<br><br>• <strong>Extra-renal manifestations:</strong> Belimumab more effective for arthritis/SCLE<br>• <strong>Low eGFR (≤45):</strong> Avoid CNI nephrotoxicity<br>• <strong>Hypertension:</strong> CNIs can worsen BP<br>• <strong>Proteinuria <3g/g:</strong> CNIs more beneficial when >3g/g (B incorrect)<br><div class="new-guideline"><strong>Decision Framework:</strong> Consider organ involvement, kidney function, and comorbidities when choosing between CNI and Belimumab</div>`
+                            }
+                        ]
+                    },
+                    {
+                        title: "Visit 2: 3-Month Follow-up and Education",
+                        scenario: `Mr. B was started on Prednisone taper, optimized MMF, and Belimumab IV. He reports improvement in arthritis and rash.`,
+                        questions: [
+                            {
+                                text: "Patient Education - Belimumab: Mr. B asks about Belimumab. What key counseling points should be discussed?",
+                                note: "(Select all that apply)",
+                                type: "multiple",
+                                options: ["Belimumab works by inhibiting B lymphocyte stimulator (BLyS), reducing B-cell activity", "It is particularly beneficial for mucocutaneous and musculoskeletal manifestations", "Live vaccines should be avoided while on this medication", "It requires close monitoring of kidney function due to high risk of nephrotoxicity", "Common side effects include nausea, diarrhea, and potential infusion/injection site reactions"],
+                                correct: [0, 1, 2, 4],
+                                explanation: `<strong>Correct!</strong> Options A, B, C, and E are correct:<br><br>• <strong>Mechanism:</strong> Anti-BLyS monoclonal antibody<br>• <strong>Benefits:</strong> Mucocutaneous and musculoskeletal manifestations<br>• <strong>Precautions:</strong> Avoid live vaccines<br>• <strong>No nephrotoxicity:</strong> Option D is incorrect - Belimumab does not cause nephrotoxicity<br>• <strong>Side effects:</strong> GI symptoms, infusion/injection reactions<br><div class="new-guideline"><strong>Administration:</strong> Available as IV (monthly) or SC (weekly)</div>`
+                            },
+                            {
+                                text: "Monitoring Frequency: The patient is improving but hasn't achieved CRR. How frequently should proteinuria be quantified?",
+                                type: "single",
+                                options: ["Weekly", "Monthly", "At least every 3 months", "Every 6 months"],
+                                correct: 2,
+                                explanation: `<strong>Correct!</strong> The guidelines recommend quantifying proteinuria at least every 3 months in active disease.<br><div class="new-guideline"><strong>Monitoring Schedule:</strong><br>• Active disease: Every 3 months minimum<br>• More frequent if clinically indicated<br>• Also monitor: Cr, CBC, complements, anti-dsDNA</div>`
+                            }
+                        ]
+                    },
+                    {
+                        title: "Visit 3: 12-Month Follow-up",
+                        scenario: `Mr. B is maintained on MMF, Belimumab, HCQ, and Prednisone 5mg daily. His extra-renal symptoms are resolved.<br><br><strong>Labs:</strong><br>• Cr <span class="lab-value">1.5</span> mg/dL (back to baseline)<br>• UPCR <span class="lab-value">0.4 g/g</span><br>• Serologies normalized`,
+                        questions: [
+                            {
+                                text: "Long-term Management: Mr. B achieved CRR on triple therapy. What is the recommended approach to his immunosuppressive regimen?",
+                                type: "single",
+                                options: ["Switch MMF to Azathioprine for maintenance", "Discontinue Belimumab immediately as CRR is achieved; continue MMF", "Continue the same immunosuppressive regimen for a total duration of 3-5 years", "Escalate therapy by adding a CNI as he has underlying CKD"],
+                                correct: 2,
+                                explanation: `<strong>Correct!</strong> The 2024 guidelines recommend continuing successful immunosuppressive therapy for 3-5 years after achieving CRR.<br><div class="new-guideline"><strong>Maintenance Principles:</strong><br>• Don't change successful regimen<br>• Continue for 3-5 years total<br>• No need to switch agents if well-tolerated<br>• No escalation needed once CRR achieved</div>`
+                            }
+                        ]
+                    }
+                ]
+            },
+            3: {
+                title: "Pure Membranous Lupus Nephritis (Class V)",
+                patient: { name: "Ms. C", age: 40, gender: "Female", occupation: "Financial Analyst", comorbidities: ["Known SLE (malar rash, photosensitivity)"], medications: "Hydroxychloroquine 400mg daily" },
+                visits: [
+                    {
+                        title: "Visit 1: Presentation",
+                        scenario: `Ms. C with known SLE presents with insidious onset of significant ankle swelling and 10 lbs weight gain over 2 months.<br><br><strong>Vitals:</strong> BP 135/85 mmHg<br><strong>Exam:</strong> 3+ pitting edema up to knees. No rash or synovitis.<br><br><strong>Labs:</strong><br>• Cr <span class="lab-value">0.8</span> mg/dL (baseline)<br>• Albumin <span class="lab-value">1.8 g/dL</span><br>• Total Cholesterol 350 mg/dL<br>• UPCR <span class="lab-value">6.5 g/g</span><br>• UA: 4+ protein, bland sediment (no hematuria)`,
+                        questions: [
+                            {
+                                text: "Physical Exam Pause: In nephrotic syndrome (severe edema, hypoalbuminemia, hyperlipidemia), which exam maneuvers are most important?",
+                                note: "(Select all that apply)",
+                                type: "multiple",
+                                options: ["Detailed cardiovascular exam (JVP assessment, volume status)", "Assessment for signs of deep vein thrombosis (e.g., unilateral limb swelling, calf tenderness)", "Detailed musculoskeletal exam for synovitis", "Skin assessment for xanthomas", "Neurological exam focusing on focal deficits"],
+                                correct: [0, 1, 3],
+                                explanation: `<strong>Correct!</strong> Options A, B, and D are important:<br><br>• <strong>Cardiovascular:</strong> Assess volume status and cardiac function<br>• <strong>DVT assessment:</strong> High thrombotic risk with severe hypoalbuminemia<br>• <strong>Xanthomas:</strong> May develop with severe hyperlipidemia<br>• <strong>MSK/Neuro:</strong> Less relevant in pure nephrotic syndrome<br><div class="clinical-note">Kidney biopsy shows Pure Membranous Lupus Nephritis (Class V)</div>`
+                            },
+                            {
+                                text: "Initial Treatment Strategy: Ms. C has Pure Class V LN with proteinuria ≥1 g/g. What is the conditionally recommended preferred regimen?",
+                                type: "single",
+                                options: ["GC + MPAA (Dual Therapy)", "GC + MPAA + Belimumab (Triple Therapy)", "GC + MPAA + CNI (Triple Therapy)", "GC + ELNT low-dose CYC (Dual Therapy)"],
+                                correct: 2,
+                                explanation: `<strong>Correct!</strong> For Pure Class V LN, the 2024 guidelines conditionally recommend GC + MPAA + CNI triple therapy.<br><div class="new-guideline"><strong>Class V Treatment:</strong><br>• Triple therapy with CNI preferred for membranous LN<br>• Superior response rates, especially with nephrotic-range proteinuria<br>• CNIs particularly effective in reducing proteinuria</div>`
+                            },
+                            {
+                                text: "Adjunctive Therapies: Which should be initiated or discussed based on guidelines and good practice?",
+                                note: "(Select all that apply)",
+                                type: "multiple",
+                                options: ["RAAS inhibition (e.g., ARB or ACEi)", "Sodium restriction (<2g/day)", "High protein diet (>1.5g/kg/day)", "Discussion with nephrology regarding systemic anticoagulation (given Albumin <2.0-2.5 g/dL)", "Statin therapy for hyperlipidemia"],
+                                correct: [0, 1, 3, 4],
+                                explanation: `<strong>Correct!</strong> Options A, B, D, and E are appropriate:<br><br>• <strong>RAAS inhibition:</strong> For proteinuria reduction<br>• <strong>Sodium restriction:</strong> Helps manage edema<br>• <strong>Avoid high protein:</strong> Can worsen proteinuria (C incorrect)<br>• <strong>Anticoagulation:</strong> Consider with albumin <2.0-2.5 g/dL<br>• <strong>Statin:</strong> Manage hyperlipidemia<br><div class="new-guideline"><strong>Thrombosis Risk:</strong> Severe hypoalbuminemia significantly increases thrombotic risk</div>`
+                            }
+                        ]
+                    },
+                    {
+                        title: "Visit 2: 6-Month Follow-up",
+                        scenario: `Ms. C was started on Prednisone taper, MMF 2.5g/day, and Voclosporin (CNI). Also on Losartan, Atorvastatin, and prophylactic anticoagulation. Edema significantly improved.<br><br><strong>Vitals:</strong> BP 128/78 mmHg<br><strong>Labs:</strong><br>• Cr <span class="lab-value">0.9</span> mg/dL<br>• Albumin <span class="lab-value">3.0 g/dL</span><br>• UPCR <span class="lab-value">2.0 g/g</span><br>• Prednisone dose: 5mg daily`,
+                        questions: [
+                            {
+                                text: "Assessing Response: How would you classify the patient's renal response at this time?",
+                                type: "single",
+                                options: ["Complete Renal Response (CRR)", "Partial Renal Response (PRR)", "Inadequate Renal Response/Nonresponse", "Refractory Disease"],
+                                correct: 1,
+                                explanation: `<strong>Correct!</strong> Partial Renal Response (PRR) = ≥50% reduction in proteinuria.<br><br>• Initial UPCR: 6.5 g/g<br>• Current UPCR: 2.0 g/g (69% reduction)<br>• Not yet CRR (<0.5-0.7 g/g)<br><div class="new-guideline"><strong>Class V Response:</strong> May take longer to achieve CRR compared to proliferative classes</div>`
+                            },
+                            {
+                                text: "Management: The patient has achieved PRR and is on favorable trajectory. What is the recommended approach?",
+                                type: "single",
+                                options: ["Escalate therapy by adding Belimumab, as CRR not achieved by 6 months", "Continue current triple immunosuppressive regimen and monitor closely", "Switch Voclosporin to Belimumab to reduce long-term nephrotoxicity risk", "Repeat kidney biopsy to assess histologic response"],
+                                correct: 1,
+                                explanation: `<strong>Correct!</strong> Continue current successful regimen when achieving PRR with improving trajectory.<br><div class="new-guideline"><strong>Management Principle:</strong><br>• Don't change successful therapy<br>• CRR may take 12-24 months<br>• Monitor for CNI toxicity<br>• Escalate only if worsening or no improvement</div>`
+                            }
+                        ]
+                    },
+                    {
+                        title: "Visit 3: 18-Month Follow-up",
+                        scenario: `Ms. C continues on the same regimen and feels well.<br><br><strong>Labs:</strong><br>• Cr <span class="lab-value">0.9</span> mg/dL<br>• UPCR <span class="lab-value">0.4 g/g</span><br>• Albumin <span class="lab-value">4.0 g/dL</span>`,
+                        questions: [
+                            {
+                                text: "Management of CRR: Ms. C achieved CRR on triple therapy. Which statements regarding management are correct?",
+                                note: "(Select all that apply)",
+                                type: "multiple",
+                                options: ["The current immunosuppressive regimen (MPAA + CNI) should be continued", "Total duration of immunosuppressive therapy should be at least 3-5 years", "HCQ should be continued indefinitely", "MPAA should be switched to Azathioprine for maintenance", "The CNI should be stopped immediately now that CRR is achieved"],
+                                correct: [0, 1, 2],
+                                explanation: `<strong>Correct!</strong> Options A, B, and C are correct:<br><br>• <strong>Continue regimen:</strong> Don't change successful therapy<br>• <strong>Duration:</strong> 3-5 years total for sustained CRR<br>• <strong>HCQ:</strong> Continue indefinitely<br>• <strong>No switching:</strong> Keep successful agents (D incorrect)<br>• <strong>CNI continuation:</strong> Don't stop abruptly (E incorrect)<br><div class="new-guideline"><strong>CNI Consideration:</strong> Monitor for long-term nephrotoxicity; may taper CNI first when de-escalating</div>`
+                            }
+                        ]
+                    }
+                ]
+            },
+            4: {
+                title: "Inadequate Response and Refractory Lupus Nephritis",
+                patient: { name: "Ms. D", age: 24, gender: "Female", occupation: "Graduate Student", comorbidities: ["Class IV LN (diagnosed 9 months ago)"], medications: "Prednisone, MMF 3g/day, Belimumab, HCQ" },
+                visits: [
+                    {
+                        title: "Visit 1: Inadequate Response (9 months post-diagnosis)",
+                        scenario: `Ms. D was diagnosed with Class IV LN 9 months ago (Cr 1.2, UPCR 3.5). Treated with standard triple therapy: pulse GCs followed by oral taper, MMF (3g/day), and Belimumab. Disease activity remains high.<br><br><strong>Vitals:</strong> BP 140/90 mmHg<br><strong>Labs (9 months):</strong><br>• Cr <span class="lab-value">1.4</span> mg/dL<br>• UPCR <span class="lab-value">3.0 g/g</span> (only 14% reduction)<br>• C3/C4 remain very low<br>• Prednisone dose: 10mg daily`,
+                        questions: [
+                            {
+                                text: "Assessment of Inadequate Response: Ms. D hasn't achieved PRR by 9 months. What are essential evaluation steps?",
+                                note: "(Select all that apply)",
+                                type: "multiple",
+                                options: ["Assess medication adherence (e.g., pharmacy refill history, patient interview)", "Confirm that medication dosing (e.g., MMF) is adequate and tolerated", "Immediately classify as refractory disease and initiate Rituximab", "Consider repeat kidney biopsy to assess ongoing activity vs. chronicity", "Assess for alternative etiologies of kidney dysfunction (e.g., TMA, hypertensive nephropathy)"],
+                                correct: [0, 1, 3, 4],
+                                explanation: `<strong>Correct!</strong> Options A, B, D, and E are essential:<br><br>• <strong>Adherence:</strong> Must confirm before escalating<br>• <strong>Dosing:</strong> Ensure therapeutic levels<br>• <strong>Not refractory yet:</strong> Need 2 failed regimens (C incorrect)<br>• <strong>Repeat biopsy:</strong> Assess activity vs chronicity<br>• <strong>Alternative causes:</strong> Rule out other pathology<br><div class="clinical-note">Adherence confirmed, dosing appropriate. Repeat biopsy shows ongoing Class IV activity with minimal chronicity.</div>`
+                            },
+                            {
+                                text: "Escalation Strategy: How should therapy be escalated for inadequate response to initial triple therapy (MPAA + Belimumab)?",
+                                note: "(Select all that apply)",
+                                type: "multiple",
+                                options: ["Continue the current regimen for another 3 months", "Change to alternative triple therapy (e.g., MPAA + CNI)", "Change to alternative triple therapy (e.g., ELNT CYC + Belimumab)", "Consider addition of anti-CD20 agent (e.g., Rituximab or Obinutuzumab) to MPAA"],
+                                correct: [1, 2, 3],
+                                explanation: `<strong>Correct!</strong> Options B, C, and D are appropriate escalation strategies:<br><br>• <strong>Alternative triple therapy:</strong> Switch one component<br>• <strong>MPAA + CNI:</strong> Common alternative<br>• <strong>CYC + Belimumab:</strong> Another option<br>• <strong>Anti-CD20:</strong> Can be considered<br>• <strong>Continue same:</strong> Not appropriate with inadequate response (A incorrect)<br><div class="new-guideline"><strong>Escalation Principle:</strong> Change at least one component of failed regimen</div>`
+                            }
+                        ]
+                    },
+                    {
+                        title: "Visit 2: Defining Refractory Disease (15 months post-diagnosis)",
+                        scenario: `Ms. D was switched to alternative triple therapy: GCs + MMF + Tacrolimus (CNI).<br><br><strong>Clinical Update (6 months later):</strong> Despite confirmed adherence and therapeutic CNI levels, disease remains active.<br><br><strong>Labs:</strong><br>• Cr <span class="lab-value">1.5</span> mg/dL<br>• UPCR <span class="lab-value">2.8 g/g</span>`,
+                        questions: [
+                            {
+                                text: "Disease Classification: Having failed two different 6-month courses of appropriate therapy, how would you classify her disease?",
+                                type: "single",
+                                options: ["Partial Renal Response", "Inadequate Renal Response", "Refractory Disease", "Chronic Kidney Disease progression"],
+                                correct: 2,
+                                explanation: `<strong>Correct!</strong> Refractory Disease = failure of 2 appropriate therapeutic regimens.<br><div class="new-guideline"><strong>Refractory Definition:</strong><br>• Failed ≥2 different immunosuppressive regimens<br>• Each given adequate trial (≥6 months)<br>• With confirmed adherence and appropriate dosing</div>`
+                            },
+                            {
+                                text: "Management of Refractory Disease: Which treatment escalations are conditionally recommended?",
+                                note: "(Select all that apply)",
+                                type: "multiple",
+                                options: ["High-dose monthly intravenous cyclophosphamide", "Addition of an anti-CD20 agent", "Combination therapy with three non-glucocorticoid immunosuppressives (MPAA + Belimumab + CNI)", "Referral for investigational therapy/clinical trial", "Plasma exchange (PLEX)"],
+                                correct: [0, 1, 2, 3],
+                                explanation: `<strong>Correct!</strong> Options A, B, C, and D are conditionally recommended:<br><br>• <strong>High-dose CYC:</strong> Option for refractory disease<br>• <strong>Anti-CD20:</strong> Rituximab/Obinutuzumab<br>• <strong>Triple non-GC therapy:</strong> Maximum medical therapy<br>• <strong>Clinical trials:</strong> Consider for refractory cases<br>• <strong>PLEX:</strong> Not routinely recommended (E incorrect)<br><div class="new-guideline"><strong>Refractory Management:</strong> Individualize based on prior treatments and patient factors</div>`
+                            }
+                        ]
+                    },
+                    {
+                        title: "Visit 3: Response to Advanced Therapy (21 months post-diagnosis)",
+                        scenario: `Given refractory disease, anti-CD20 agent was initiated. MMF continued, Tacrolimus stopped.<br><br><strong>Clinical Update (6 months later):</strong> Significant clinical improvement<br><br><strong>Labs:</strong><br>• Cr <span class="lab-value">1.2</span> mg/dL<br>• UPCR <span class="lab-value">1.0 g/g</span><br>• C3/C4 normalizing<br>• Prednisone: 5mg daily`,
+                        questions: [
+                            {
+                                text: "Ongoing Management: Ms. D achieved PRR and is improving. What is the recommended approach?",
+                                type: "single",
+                                options: ["Immediately stop anti-CD20 agent as PRR achieved", "Individualize therapy based on trajectory, continue current regimen with close monitoring", "Escalate therapy again immediately as CRR not achieved", "Switch MMF to Azathioprine for maintenance"],
+                                correct: 1,
+                                explanation: `<strong>Correct!</strong> Continue successful therapy in refractory disease when achieving response.<br><div class="new-guideline"><strong>Refractory Disease Principle:</strong><br>• Don't stop successful therapy prematurely<br>• Monitor trajectory of improvement<br>• CRR may take longer in refractory cases<br>• Maintain therapy that achieves response</div>`
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        // --- CORE FUNCTIONS ---
+        function openLink(url) {
+            window.open(url, '_blank');
+        }
+
+        function selectCase(caseNum) {
+            currentCase = caseNum;
+            currentVisit = 0;
+            score = 0;
+            totalQuestions = cases[caseNum].visits.reduce((acc, visit) => acc + visit.questions.length, 0);
+            
+            updateCaseButtons();
+            loadCaseIntro();
+        }
+
+        function updateCaseButtons() {
+            document.querySelectorAll('.case-btn').forEach((btn, index) => {
+                const caseNum = index + 1;
+                btn.classList.remove('active', 'completed');
+                if (completedCases.has(caseNum)) {
+                    btn.classList.add('completed');
+                }
+                if (caseNum === currentCase) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        function loadCaseIntro() {
+            const caseData = cases[currentCase];
+            const content = document.getElementById('content');
+            
+            content.innerHTML = `
+                <div class="case-intro">
+                    <h2>${caseData.title}</h2>
+                    <div class="patient-info">
+                        <h3>Patient Information</h3>
+                        <div class="info-grid">
+                            <div class="info-item"><strong>Name:</strong> ${caseData.patient.name}</div>
+                            <div class="info-item"><strong>Age:</strong> ${caseData.patient.age} years old</div>
+                            <div class="info-item"><strong>Gender:</strong> ${caseData.patient.gender}</div>
+                            <div class="info-item"><strong>Occupation:</strong> ${caseData.patient.occupation}</div>
+                        </div>
+                        <div style="margin-top: 15px;">
+                            <div class="info-item"><strong>Comorbidities:</strong> ${Array.isArray(caseData.patient.comorbidities) ? caseData.patient.comorbidities.join(', ') : caseData.patient.comorbidities}</div>
+                            <div class="info-item"><strong>Current Medications:</strong> ${caseData.patient.medications}</div>
+                        </div>
+                    </div>
+                    <button class="submit-btn" onclick="startCase()">Begin Case</button>
+                </div>
+            `;
+        }
+
+        function startCase() {
+            loadVisit();
+        }
+
+        function loadVisit() {
+            const caseData = cases[currentCase];
+            const visit = caseData.visits[currentVisit];
+            const content = document.getElementById('content');
+            
+            let questionsHtml = visit.questions.map((question, qIndex) => {
+                const questionId = `q${currentVisit}_${qIndex}`;
+                return `
+                    <div class="question-box" id="${questionId}">
+                        <h4>Question ${qIndex + 1}: ${question.text}</h4>
+                        ${question.note ? `<div class="question-note">${question.note}</div>` : ''}
+                        <div class="options">
+                            ${question.options.map((option, oIndex) => `
+                                <button class="option" onclick="selectOption('${questionId}', ${oIndex}, '${question.type}')" id="${questionId}_opt${oIndex}">
+                                    ${String.fromCharCode(65 + oIndex)}. ${option}
+                                </button>
+                            `).join('')}
+                        </div>
+                        <button class="submit-btn" id="${questionId}_submit" onclick="submitAnswer('${questionId}', ${qIndex})" disabled>Submit Answer</button>
+                        <div class="feedback" id="${questionId}_feedback"></div>
+                    </div>
+                `;
+            }).join('');
+            
+            content.innerHTML = `
+                <div class="visit-section">
+                    <div class="visit-header">
+                        <h3>${visit.title}</h3>
+                        <p>Visit ${currentVisit + 1} of ${caseData.visits.length}</p>
+                    </div>
+                    <div class="clinical-data">
+                        <h4>Clinical Presentation</h4>
+                        <div>${visit.scenario}</div>
+                    </div>
+                    ${questionsHtml}
+                    <button class="next-btn" id="nextBtn" onclick="nextVisit()">Continue to Next Visit →</button>
+                </div>
+                <div class="case-complete" id="caseComplete"></div>
+            `;
+            
+            visit.questions.forEach((_, qIndex) => {
+                window[`selections_q${currentVisit}_${qIndex}`] = [];
+            });
+        }
+
+        function selectOption(questionId, optionIndex, type) {
+            const selections = window[`selections_${questionId}`] || [];
+            
+            if (type === 'single') {
+                document.querySelectorAll(`#${questionId} .option`).forEach(opt => opt.classList.remove('selected'));
+                document.getElementById(`${questionId}_opt${optionIndex}`).classList.add('selected');
+                window[`selections_${questionId}`] = [optionIndex];
+            } else {
+                const opt = document.getElementById(`${questionId}_opt${optionIndex}`);
+                opt.classList.toggle('selected');
+                const index = selections.indexOf(optionIndex);
+                if (index > -1) {
+                    selections.splice(index, 1);
+                } else {
+                    selections.push(optionIndex);
+                }
+                window[`selections_${questionId}`] = selections;
+            }
+            
+            document.getElementById(`${questionId}_submit`).disabled = window[`selections_${questionId}`].length === 0;
+        }
+
+        function submitAnswer(questionId, questionIndex) {
+            const question = cases[currentCase].visits[currentVisit].questions[questionIndex];
+            const selections = window[`selections_${questionId}`] || [];
+            
+            if (selections.length === 0) return;
+            
+            let isCorrect = false;
+            if (question.type === 'single') {
+                isCorrect = selections[0] === question.correct;
+            } else {
+                const correctSet = new Set(question.correct);
+                const selectedSet = new Set(selections);
+                isCorrect = correctSet.size === selectedSet.size && [...correctSet].every(x => selectedSet.has(x));
+            }
+            
+            if (isCorrect) score++;
+            
+            document.querySelectorAll(`#${questionId} .option`).forEach((opt, index) => {
+                opt.onclick = null;
+                opt.style.cursor = 'default';
+                const isSelected = selections.includes(index);
+                const isCorrectOption = question.type === 'single' ? index === question.correct : question.correct.includes(index);
+
+                if (isCorrectOption) opt.classList.add('correct');
+                if (isSelected && !isCorrectOption) opt.classList.add('incorrect');
+            });
+            
+            const feedback = document.getElementById(`${questionId}_feedback`);
+            feedback.className = isCorrect ? 'feedback correct' : 'feedback incorrect';
+            feedback.innerHTML = `<h5>${isCorrect ? '✓ Correct!' : '✗ Incorrect'}</h5><div>${question.explanation}</div>`;
+            feedback.style.display = 'block';
+            
+            document.getElementById(`${questionId}_submit`).style.display = 'none';
+            
+            const allAnswered = cases[currentCase].visits[currentVisit].questions.every((_, qIndex) => 
+                document.getElementById(`q${currentVisit}_${qIndex}_feedback`).style.display === 'block'
+            );
+            
+            if (allAnswered) {
+                document.getElementById('nextBtn').style.display = 'block';
+            }
+        }
+
+        function nextVisit() {
+            currentVisit++;
+            if (currentVisit < cases[currentCase].visits.length) {
+                loadVisit();
+            } else {
+                showCaseComplete();
+            }
+        }
+
+        function showCaseComplete() {
+            const percentage = Math.round((score / totalQuestions) * 100);
+            let feedbackText;
+            if (percentage >= 90) feedbackText = '<strong>Excellent work!</strong> You demonstrated mastery of the 2024/2025 ACR Lupus guidelines.';
+            else if (percentage >= 75) feedbackText = '<strong>Good performance!</strong> You showed solid understanding of the key updates.';
+            else feedbackText = '<strong>Review recommended.</strong> Consider revisiting the 2024/2025 guideline updates.';
+
+            const keyPoints = {
+                1: `<li><span class="highlight">Initial Management:</span> HCQ, RAAS inhibition, pulse IV GCs, urgent biopsy</li><li><span class="highlight">Triple Therapy:</span> GC + MPAA + CNI for Class IV with proteinuria >3 g/g</li><li><span class="highlight">Response Definitions:</span> CRR = UPCR <0.5-0.7 g/g with stable/improved eGFR</li><li><span class="highlight">Steroid Tapering:</span> Target ≤5 mg/day by 6 months</li><li><span class="highlight">Duration:</span> 3-5 years of immunosuppression for sustained CRR</li>`,
+                2: `<li><span class="highlight">LN Flare:</span> Repeat biopsy conditionally recommended</li><li><span class="highlight">Belimumab vs CNI:</span> Consider extra-renal manifestations, eGFR, and comorbidities</li><li><span class="highlight">Belimumab Benefits:</span> Mucocutaneous and musculoskeletal manifestations</li><li><span class="highlight">Monitoring:</span> Proteinuria every 3 months in active disease</li><li><span class="highlight">Maintenance:</span> Continue successful regimen for 3-5 years</li>`,
+                3: `<li><span class="highlight">Nephrotic Syndrome:</span> Assess for DVT, consider anticoagulation if albumin <2.0-2.5</li><li><span class="highlight">Class V Treatment:</span> Triple therapy with CNI preferred</li><li><span class="highlight">Adjunctive Therapy:</span> RAAS inhibition, sodium restriction, statin</li><li><span class="highlight">Response Time:</span> Class V may take longer to achieve CRR</li><li><span class="highlight">CNI Monitoring:</span> Long-term nephrotoxicity considerations</li>`,
+                4: `<li><span class="highlight">Inadequate Response:</span> Assess adherence, dosing, consider repeat biopsy</li><li><span class="highlight">Refractory Disease:</span> Failure of ≥2 appropriate regimens</li><li><span class="highlight">Refractory Options:</span> High-dose CYC, anti-CD20, triple non-GC therapy, trials</li><li><span class="highlight">Response Trajectory:</span> Continue successful therapy even if only PRR achieved</li><li><span class="highlight">Individualization:</span> Tailor therapy based on prior treatments and response</li>`
+            };
+
+            document.querySelector('.visit-section').style.display = 'none';
+            const caseCompleteEl = document.getElementById('caseComplete');
+            caseCompleteEl.style.display = 'block';
+            caseCompleteEl.innerHTML = `
+                <h3>🎉 Case Complete!</h3>
+                <div class="score-display">Your Score: ${score}/${totalQuestions} (${percentage}%)</div>
+                <div class="final-feedback">
+                    <h4>Case Summary & Key Learning Points</h4>
+                    <p>${feedbackText}</p>
+                    <div class="key-points">
+                        <h4>Critical Guideline Updates from This Case:</h4>
+                        <ul>${keyPoints[currentCase]}</ul>
+                    </div>
+                    <div style="margin-top: 30px; text-align: center;">
+                        <button class="submit-btn" onclick="resetToMenu()">Return to Case Selection</button>
+                    </div>
+                </div>
+            `;
+            
+            completedCases.add(currentCase);
+            updateCaseButtons();
+        }
+
+        function resetToMenu() {
+            document.getElementById('content').innerHTML = `
+                <div class="welcome">
+                    <h2>Select Another Case</h2>
+                    <p>Choose a case above to continue learning the 2024/2025 ACR Lupus guidelines.</p>
+                    <div class="key-points" style="max-width: 600px; margin: 30px auto;">
+                        <h4>Progress Summary</h4>
+                        <ul style="text-align: left;">
+                            ${[1, 2, 3, 4].map(caseNum => `<li>Case ${caseNum}: ${completedCases.has(caseNum) ? '✓ Completed' : 'Not started'}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+            `;
+            currentCase = null;
+            updateCaseButtons();
+        }
+
+        // --- GLOBAL ACCESS TO FUNCTIONS ---
+        window.openLink = openLink;
+        window.selectCase = selectCase;
+        window.startCase = startCase;
+        window.selectOption = selectOption;
+        window.submitAnswer = submitAnswer;
+        window.nextVisit = nextVisit;
+        window.resetToMenu = resetToMenu;
+    </script>
+</body>
+</html>
