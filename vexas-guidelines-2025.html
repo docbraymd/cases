@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025 ACR VEXAS Syndrome Guidelines - Interactive Cases</title>
+    <style>
+        /* Color Palette
+        Deep Navy: #17375E
+        Teal: #3998A5
+        Gold: #B59449
+        Light Gray: #F3F4F6
+        White: #FFFFFF
+        */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: #F3F4F6; /* Light Gray Background */
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.7;
+            color: #333333; /* Default text color */
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: #FFFFFF; /* White container */
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(23, 55, 94, 0.1); /* Subtle Navy shadow */
+            overflow: hidden;
+        }
+
+        .header {
+            background: #17375E; /* Deep Navy */
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .case-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            padding: 25px;
+            background: #F9FAFB; /* Slightly off-white */
+            border-bottom: 1px solid #E5E7EB;
+        }
+        
+        .resource-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 20px;
+            background: #F9FAFB;
+            border-bottom: 1px solid #E5E7EB;
+            flex-wrap: wrap;
+        }
+
+        .case-btn, .resource-btn {
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-align: center;
+            border: none;
+        }
+        
+        .case-btn {
+            background: #FFFFFF;
+            border: 2px solid #3998A5; /* Teal Border */
+            color: #17375E; /* Navy Text */
+        }
+
+        .case-btn:hover {
+            background: #3998A5; /* Teal Background */
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(57, 152, 165, 0.3);
+        }
+
+        .case-btn.active {
+            background: #3998A5;
+            color: white;
+            border-color: #3998A5;
+        }
+
+        .case-btn.completed {
+            background: #059669; /* Keep green for completion */
+            color: white;
+            border-color: #059669;
+        }
+        
+        .resource-btn {
+            background: #17375E; /* Navy */
+            border: 2px solid #17375E;
+            color: white;
+            min-width: 160px;
+        }
+        
+        .resource-btn:hover {
+            background: #1e4a7b;
+            border-color: #1e4a7b;
+            transform: translateY(-2px);
+        }
+
+        .content {
+            padding: 30px;
+            min-height: 500px;
+        }
+
+        .case-intro {
+            background: #F3F4F6; /* Light Gray */
+            border-left: 5px solid #3998A5; /* Teal Accent */
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+
+        .case-intro h2 {
+            color: #17375E; /* Navy */
+            margin-bottom: 15px;
+        }
+
+        .patient-info {
+            background: #FFFFFF;
+            border: 1px solid #E5E7EB;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .patient-info h3 {
+            color: #17375E;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .info-item {
+            padding: 8px;
+            background: #F9FAFB;
+            border-radius: 5px;
+        }
+
+        .info-item strong {
+            color: #3998A5; /* Teal */
+        }
+
+        .visit-section {
+            background: #FFFFFF;
+            border: 1px solid #E5E7EB;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .visit-header {
+            background: #3998A5; /* Teal */
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .clinical-data {
+            background: #F3F4F6; /* Light Gray */
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 1px solid #E5E7EB;
+        }
+        
+        /* Ensure lists inside clinical data and feedback have margins */
+        .clinical-data ul, .feedback ul, .key-points ul {
+            margin-left: 20px;
+            list-style-type: disc;
+        }
+        .clinical-data li, .feedback li, .key-points li {
+            margin-bottom: 5px;
+        }
+
+        /* Light Teal background for question box */
+        .question-box {
+            background: #e6f5f7; 
+            border: 2px solid #3998A5; /* Teal border */
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+
+        .question-box h4 {
+            color: #17375E; /* Navy */
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .question-note {
+            color: #17375E;
+            font-style: italic;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            opacity: 0.8;
+        }
+
+        .options {
+            margin: 20px 0;
+        }
+
+        .option {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 15px;
+            margin: 10px 0;
+            background: #FFFFFF;
+            border: 2px solid #E5E7EB;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            color: #333333;
+        }
+
+        /* Ensure hover effects only apply when not disabled */
+        .option:hover:not(:disabled) {
+            background: #f0f9fb;
+            border-color: #3998A5; /* Teal */
+            transform: translateX(5px);
+        }
+
+        .option.selected {
+            background: #d0ebef; /* Lighter Teal */
+            border-color: #3998A5; /* Teal */
+        }
+
+        /* Keep feedback colors standard (Green/Red) */
+        .option.correct {
+            background: #D1FAE5;
+            border-color: #10B981;
+            color: #065F46;
+            cursor: default;
+        }
+
+        .option.incorrect {
+            background: #FEE2E2;
+            border-color: #EF4444;
+            color: #991B1B;
+            cursor: default;
+        }
+
+        .submit-btn {
+            padding: 12px 30px;
+            background: #3998A5; /* Teal */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        /* Ensure hover effects only apply when not disabled */
+        .submit-btn:hover:not(:disabled) {
+            background: #2d7a85;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(57, 152, 165, 0.4);
+        }
+
+        .submit-btn:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .feedback {
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .feedback.correct {
+            background: #D1FAE5;
+            border: 2px solid #10B981;
+            color: #065F46;
+        }
+
+        .feedback.incorrect {
+            background: #FEE2E2;
+            border: 2px solid #EF4444;
+            color: #991B1B;
+        }
+
+        .feedback.partial {
+            background: #FEF3C7;
+            border: 2px solid #FBBF24;
+            color: #92400E;
+        }
+
+        .feedback h5 {
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .next-btn {
+            padding: 12px 30px;
+            background: #17375E; /* Navy */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .next-btn:hover {
+            background: #1e4a7b;
+            transform: translateY(-2px);
+        }
+
+        .case-complete {
+            background: #17375E; /* Navy */
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 30px 0;
+            display: none;
+        }
+
+        .case-complete h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .score-display {
+            font-size: 1.5rem;
+            margin: 20px 0;
+        }
+
+        .final-feedback {
+            background: #FFFFFF;
+            color: #333333;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: left;
+            border: 1px solid #E5E7EB;
+        }
+
+        .final-feedback h4 {
+            color: #17375E;
+        }
+
+        .key-points {
+            background: #F3F4F6;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 1px solid #E5E7EB;
+        }
+
+        .key-points h4 {
+            color: #3998A5; /* Teal */
+            margin-bottom: 10px;
+        }
+
+        .key-points li {
+            margin: 8px 0;
+        }
+
+        .welcome {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .welcome h2 {
+            color: #17375E;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .welcome p {
+            color: #555555;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        /* Highlight using Gold */
+        .highlight {
+            background: #fdf6e9; /* Light Gold bg */
+            color: #17375E; /* Navy text */
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 600;
+            border: 1px solid #B59449; /* Gold border */
+        }
+
+        .critical {
+            color: #DC2626;
+            font-weight: bold;
+        }
+
+        /* Styling for guideline references using Teal */
+        .new-guideline {
+            background: #e6f5f7; /* Light Teal */
+            border-left: 4px solid #3998A5; /* Teal Accent */
+            padding: 10px 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            color: #17375E;
+        }
+
+        .new-guideline strong {
+            color: #17375E;
+        }
+
+        .lab-value {
+            font-family: monospace;
+            background: #E5E7EB;
+            padding: 2px 5px;
+            border-radius: 3px;
+            color: #17375E; /* Navy */
+            font-weight: bold;
+        }
+
+        /* Clinical note using Gold/Beige */
+        .clinical-note {
+            background: #fdf6e9;
+            border: 1px solid #B59449;
+            padding: 10px;
+            margin: 15px 0;
+            border-radius: 5px;
+            color: #333333;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .case-selector {
+                grid-template-columns: 1fr;
+            }
+            .case-btn, .resource-btn {
+                width: 100%;
+            }
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            .content {
+                padding: 15px;
+            }
+            body {
+                padding: 10px;
+            }
+            .container {
+                margin: 10px auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>2025 ACR VEXAS Syndrome Guidelines</h1>
+            <p>Interactive Case-Based Learning for Internal Medicine Residents</p>
+        </div>
+
+        <div class="case-selector">
+            <button class="case-btn" onclick="selectCase(1)">Case 1: Classic Inflammatory</button>
+            <button class="case-btn" onclick="selectCase(2)">Case 2: Hematologic/MDS</button>
+            <button class="case-btn" onclick="selectCase(3)">Case 3: Diagnostic Challenges</button>
+        </div>
+        
+        <div class="resource-links">
+            <button class="resource-btn" onclick="openLink('https://www.nejm.org/doi/full/10.1056/NEJMoa2026834')">NEJM Original Paper (2020)</button>
+            <!-- Note: The 2025 guideline link below is based on the DOI provided in the prompt context -->
+            <button class="resource-btn" onclick="openLink('https://acrjournals.onlinelibrary.wiley.com/doi/10.1002/art.43287')">2025 ACR Guidelines</button>
+            <button class="resource-btn" onclick="openLink('https://www.niams.nih.gov/labs/grayson-lab/vexas')">NIH VEXAS Resource</button>
+        </div>
+
+        <div class="content" id="content">
+            <!-- Initial Welcome Screen -->
+            <div class="welcome">
+                <h2>Welcome to the VEXAS Syndrome Training Module</h2>
+                <p>Select a case above to begin. Each case presents complex scenarios incorporating the 2025 ACR Guidance Statement for VEXAS Syndrome.</p>
+                <p>You'll make clinical decisions at critical points and receive detailed feedback based on the new recommendations.</p>
+                <div class="key-points" style="max-width: 600px; margin: 30px auto;">
+                    <h4>VEXAS Overview</h4>
+                    <ul style="text-align: left;">
+                        <li><strong>V</strong>acuoles, <strong>E</strong>1 enzyme, <strong>X</strong>-linked, <strong>A</strong>utoinflammatory, <strong>S</strong>omatic</li>
+                        <li>Caused by somatic mutations in UBA1 gene</li>
+                        <li>Affects males >50 years (rare in females)</li>
+                        <li>Inflammatory + Hematologic manifestations</li>
+                        <li>High morbidity and mortality</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentCase = null;
+        let currentVisit = 0;
+        let score = 0;
+        let totalQuestions = 0;
+        let completedCases = new Set();
+        let selections = {}; // Object to store selections for the current visit
+
+        // Case data structure - Fully restored and verified
+        const cases = {
+            1: {
+                title: "Case 1: The Classic Inflammatory Phenotype",
+                patient: {
+                    name: "68-year-old Male",
+                    age: 68,
+                    gender: "Male",
+                    comorbidities: ["Hypertension", "Hyperlipidemia"],
+                    medications: "Antihypertensives, Statin"
+                },
+                visits: [
+                    {
+                        title: "Visit 1: Initial Presentation",
+                        scenario: `<strong>Chief Complaint:</strong> Recurrent fevers, fatigue, and painful ear swelling.
+                        <br><br>
+                        <strong>HPI:</strong> Presents with 6 months of intermittent, migratory arthralgias and profound fatigue. Over the last 4 weeks, he developed recurrent episodes of acute, severe pain and swelling of his left ear cartilage, sparing the lobe, accompanied by fevers (up to 101.5°F). He was treated twice with antibiotics for presumed cellulitis/perichondritis without improvement. He also reports new, painful red nodules on his shins.
+                        <br><br>
+                        <strong>Vitals:</strong> T 100.8°F (38.1°C), HR 98, BP 135/85, RR 16, SpO2 98% on RA.
+                        <br><br>
+                        <strong>Physical Exam:</strong>
+                        <ul>
+                            <li>General: Appears fatigued.</li>
+                            <li>HEENT: Left auricle is erythematous, edematous, and exquisitely tender; the earlobe is spared.</li>
+                            <li>MSK: Mild synovitis in the right wrist.</li>
+                            <li>Skin: Multiple tender, erythematous subcutaneous nodules on bilateral lower extremities (consistent with erythema nodosum).</li>
+                        </ul>
+                        <br>
+                        <strong>Initial Labs:</strong>
+                        <ul>
+                            <li>CBC: WBC 9.5 k/uL, Hgb <span class="lab-value">10.5</span> g/dL (Baseline 13.0), MCV <span class="lab-value">108</span> fL, Platelets 140 k/uL.</li>
+                            <li>CMP: Normal.</li>
+                            <li>Inflammatory Markers: CRP <span class="lab-value">120</span> mg/L (High), ESR <span class="lab-value">85</span> mm/hr (High).</li>
+                        </ul>`,
+                        questions: [
+                            {
+                                text: "Diagnostic Pause: Based on the history, physical exam, and initial laboratory findings, which of the following diagnoses should be strongly considered?",
+                                note: "(Select All That Apply)",
+                                type: "multiple",
+                                options: [
+                                    "A. Granulomatosis with Polyangiitis (GPA)",
+                                    "B. Relapsing Polychondritis (RP)",
+                                    "C. VEXAS Syndrome",
+                                    "D. Polyarteritis Nodosa (PAN)",
+                                    "E. Disseminated infection (e.g., endocarditis)"
+                                ],
+                                correct: [1, 2, 4], // B, C, E
+                                explanation: `<strong>Rationale:</strong>
+                                <ul>
+                                    <li><strong>(B) Relapsing Polychondritis (RP):</strong> Strongly suggested by the auricular chondritis (sparing the lobe).</li>
+                                    <li><strong>(C) VEXAS Syndrome:</strong> Strongly suggested by the combination of chondritis, systemic inflammation (fever, high CRP/ESR), erythema nodosum, and macrocytic anemia in an older male.</li>
+                                    <li><strong>(E) Disseminated infection:</strong> Must be ruled out in a patient with fever and systemic symptoms.</li>
+                                    <li>(A) GPA: Can cause chondritis, but less likely without upper/lower respiratory or renal involvement.</li>
+                                    <li>(D) PAN: Can cause erythema nodosum and systemic inflammation, but chondritis is not typical.</li>
+                                </ul>
+                                <div class="new-guideline"><strong>2025 Guideline (Figure 1):</strong> Pre-test probability for VEXAS is higher for MALES, OLDER THAN 50 YEARS, with ELEVATED ACUTE PHASE REACTANTS presenting with typical features like auricular chondritis and macrocytic anemia.</div>`
+                            },
+                            {
+                                text: "Initial Workup: According to the 2025 ACR Guidance Statement (Figure 1), the pre-test probability for VEXAS is high. What are the most appropriate next diagnostic steps?",
+                                note: "(Select All That Apply)",
+                                type: "multiple",
+                                options: [
+                                    "A. ANCA serologies (MPO/PR3)",
+                                    "B. Blood cultures",
+                                    "C. Empiric high-dose glucocorticoids",
+                                    "D. UBA1 gene mutation testing (e.g., Sanger sequencing or NGS) on peripheral blood",
+                                    "E. Bone marrow biopsy to look for vacuoles"
+                                ],
+                                correct: [0, 1, 3], // A, B, D
+                                explanation: `<strong>Rationale:</strong>
+                                <ul>
+                                    <li><strong>(A) ANCA serologies:</strong> Important to rule out GPA as a mimic.</li>
+                                    <li><strong>(B) Blood cultures:</strong> Essential to rule out infection before considering immunosuppression.</li>
+                                    <li><strong>(D) UBA1 testing:</strong> This is the definitive diagnostic test for VEXAS.</li>
+                                    <li>(C) Empiric glucocorticoids: Should generally be avoided until infection is ruled out and diagnostic testing is sent.</li>
+                                    <li>(E) Bone marrow biopsy: While vacuoles are suggestive, they are neither sensitive nor specific. Genetic testing is required for diagnosis. BM biopsy is more important later for assessing MDS/cytopenias.</li>
+                                </ul>
+                                <div class="new-guideline"><strong>2025 Guideline (Figure 2):</strong> The diagnosis of VEXAS requires detection of pathogenic somatic mutations in the UBA1 gene. Testing can be performed on peripheral blood.</div>`
+                            }
+                        ]
+                    },
+                    {
+                        title: "Visit 2: Diagnosis and Initial Management (4 weeks later)",
+                        scenario: `<strong>Interval History:</strong> The patient was started on Prednisone 40mg daily for presumed Relapsing Polychondritis while awaiting further workup. His symptoms rapidly improved.
+                        <br><br>
+                        <strong>Workup Results:</strong>
+                        <ul>
+                            <li>ANCA: Negative.</li>
+                            <li>Blood cultures: Negative.</li>
+                            <li><span class="highlight">UBA1 testing (via peripheral blood Sanger sequencing): Positive for somatic mutation at p.Met41Thr.</span></li>
+                        </ul>
+                        <br>
+                        <strong>Assessment:</strong> The diagnosis of VEXAS syndrome is confirmed. The patient's prednisone was tapered to 20mg daily, but he reports recurrence of mild ear pain and fatigue at this dose.`,
+                        questions: [
+                            {
+                                text: "Management Principles: Now that VEXAS is confirmed, you counsel the patient. According to the 2025 ACR guidelines, which statements regarding VEXAS management are accurate?",
+                                note: "(Select All That Apply)",
+                                type: "multiple",
+                                options: [
+                                    "A. Glucocorticoid-free remission is the usual outcome and should be the primary goal.",
+                                    "B. Glucocorticoids should be tapered slowly, as small reductions in dosage can precipitate recurrence of inflammation.",
+                                    "C. Patients should be managed by a multidisciplinary team, including Rheumatology and Hematology.",
+                                    "D. Conventional DMARDs (e.g., Methotrexate, Azathioprine) are highly effective and preferred over targeted therapies.",
+                                    "E. B-cell directed therapies (e.g., Rituximab) are contraindicated as they are not efficacious and can worsen B-cell lymphopenia."
+                                ],
+                                correct: [1, 2, 4], // B, C, E
+                                explanation: `<strong>Rationale:</strong>
+                                <ul>
+                                    <li><strong>(B) Slow Taper:</strong> The guidelines emphasize that "Caution should be exercised when tapering glucocorticoids, as small reductions in dosage can precipitate recurrence of inflammation."</li>
+                                    <li><strong>(C) Multidisciplinary Team:</strong> The guidelines state, "Patients with VEXAS should be managed by a multidisciplinary team..." including hematologists and rheumatologists.</li>
+                                    <li><strong>(E) B-cell Therapies:</strong> The guidelines explicitly state, "B cell-depleting therapies are contraindicated because they are not efficacious in VEXAS and can worsen disease-associated B cell lymphopenia."</li>
+                                    <li>(A) Glucocorticoid-free remission: Incorrect. The guidelines note, "Unlike many rheumatologic diseases, glucocorticoid-free remission is unusual in VEXAS."</li>
+                                    <li>(D) Conventional DMARDs: Incorrect. The guidelines state that targeted therapies (JAK inhibitors, IL-6 inhibitors) are "more effective than conventional DMARDs."</li>
+                                </ul>`
+                            },
+                            {
+                                text: "Hematologic Evaluation: Given the confirmed diagnosis of VEXAS and persistent cytopenias (anemia and thrombocytopenia), the 2025 guidelines recommend further hematologic evaluation. What steps are necessary?",
+                                note: "(Select All That Apply)",
+                                type: "multiple",
+                                options: [
+                                    "A. Bone marrow biopsy and aspiration.",
+                                    "B. Karyotyping and NGS myeloid malignancy panel on the bone marrow specimen.",
+                                    "C. Immediate initiation of Azacitidine.",
+                                    "D. Assessment for nutritional deficiencies (e.g., Copper, B12) that may also cause vacuoles or macrocytosis."
+                                ],
+                                correct: [0, 1, 3], // A, B, D
+                                explanation: `<strong>Rationale:</strong>
+                                <ul>
+                                    <li><strong>(A) Bone marrow examination:</strong> Recommended in patients with VEXAS with associated cytopenia to exclude an associated hematologic neoplasm (MDS).</li>
+                                    <li><strong>(B) Karyotype and NGS:</strong> The guidelines state these "should be performed with bone marrow examination" to identify MDS-defining abnormalities and coexisting somatic mutations.</li>
+                                    <li><strong>(D) Nutritional deficiencies:</strong> Important to rule out other causes of cytopenias and macrocytosis. Copper deficiency can also cause vacuoles.</li>
+                                    <li>(C) Immediate Azacitidine: Incorrect. Treatment decisions should follow a complete evaluation, including the bone marrow assessment.</li>
+                                </ul>
+                                <div class="new-guideline"><strong>2025 Guideline (Group 3):</strong> We recommend a baseline bone marrow examination in all patients with cytopenic VEXAS, including cytogenetic analysis and NGS panel targeting somatic mutations for myeloid malignancy.</div>`
+                            }
+                        ]
+                    },
+                    {
+                        title: "Visit 3: Treatment Adjustments (3 months later)",
+                        scenario: `<strong>Interval History:</strong> The patient continues to require Prednisone 20mg daily to control his symptoms. He has developed steroid-induced hyperglycemia.
+                        <br><br>
+                        <strong>Hematology Results:</strong> Bone marrow biopsy showed hypercellular marrow, prominent cytoplasmic vacuoles in myeloid and erythroid precursors, and mild dysplastic features not meeting full WHO/ICC criteria for MDS. Karyotype normal. NGS panel confirmed the UBA1 mutation and identified a <span class="highlight">TET2</span> co-mutation.
+                        <br><br>
+                        <strong>Assessment:</strong> Steroid-dependent VEXAS.`,
+                        questions: [
+                            {
+                                text: "Escalation of Therapy: The patient requires ≥10mg/day of prednisone to control symptoms. According to the 2025 ACR VEXAS Treatment Algorithm (Figure 4), what are the preferred steroid-sparing agents to consider?",
+                                note: "(Select All That Apply)",
+                                type: "multiple",
+                                options: [
+                                    "A. Methotrexate",
+                                    "B. Ruxolitinib (JAK inhibitor)",
+                                    "C. Tocilizumab (IL-6 inhibitor)",
+                                    "D. Azathioprine",
+                                    "E. Anakinra (IL-1 inhibitor)"
+                                ],
+                                correct: [1, 2], // B, C
+                                explanation: `<strong>Rationale:</strong>
+                                <ul>
+                                    <li><strong>(B) Ruxolitinib and (C) Tocilizumab:</strong> The guidelines state that medications targeting inflammatory pathways (JAK inhibitors, IL-6 inhibitors) are more effective than conventional DMARDs. Figure 4 lists Anti-IL6 and JAK inhibitors as primary steroid-sparing agents.</li>
+                                    <li>(A) Methotrexate and (D) Azathioprine: Conventional DMARDs have limited efficacy.</li>
+                                    <li>(E) Anakinra: IL-1 inhibitors can be considered, but the guidelines note that "severe injection site reactions have been reported from anakinra," and IL-6/JAK inhibitors are more widely used and seemingly preferred in the algorithm.</li>
+                                </ul>
+                                <div class="new-guideline"><strong>2025 Guideline (Figure 4):</strong> When patients require CS ≥ 10mg/day, the algorithm recommends starting a CS sparing agent, prioritizing Anti-IL6 or JAK inhibitors.</div>`
+                            },
+                            {
+                                text: "Patient Education - Ruxolitinib: You decide to initiate Ruxolitinib. What key counseling points and safety measures should you discuss with the patient?",
+                                note: "(Select All That Apply)",
+                                type: "multiple",
+                                options: [
+                                    "A. Ruxolitinib targets inflammatory pathways (JAK-STAT signaling) broadly involved in VEXAS.",
+                                    "B. We must monitor your blood counts closely, as Ruxolitinib can worsen cytopenias (anemia, thrombocytopenia).",
+                                    "C. This medication increases the risk of viral infections, particularly shingles (VZV) and herpes (HSV); antiviral prophylaxis should be considered.",
+                                    "D. This medication is curative and will eliminate the UBA1 clone within 6 months.",
+                                    "E. There is a potential increased risk of thromboembolic disease and cardiovascular events associated with this class of medication."
+                                ],
+                                correct: [0, 1, 2, 4], // A, B, C, E
+                                explanation: `<strong>Rationale:</strong>
+                                <ul>
+                                    <li><strong>(A) Mechanism:</strong> JAK inhibitors target a broad spectrum of disease-relevant cytokines (e.g., IL-6, interferons).</li>
+                                    <li><strong>(B) Cytopenias:</strong> The guidelines note, "Worsening cytopenia related to use of JAK inhibitors should be closely monitored and managed."</li>
+                                    <li><strong>(C) Infections:</strong> Guidelines recommend considering prophylaxis for alpha herpesviruses due to the association of JAK inhibitors with increased risk for viral infections.</li>
+                                    <li><strong>(E) Thrombosis/CV events:</strong> The guidelines mention the association of JAK inhibitors with these risks, advising careful patient selection.</li>
+                                    <li>(D) Curative: Incorrect. Ruxolitinib manages inflammation but does not eliminate the clone. HSCT is the only curative option.</li>
+                                </ul>`
+                            }
+                        ]
+                    }
+                ]
+            },
+            2: {
+                title: "Case 2: The Hematologic Phenotype and MDS Overlap",
+                patient: {
+                    name: "72-year-old Male",
+                    age: 72,
+                    gender: "Male",
+                    comorbidities: ["Type 2 Diabetes Mellitus", "Coronary Artery Disease"],
+                    medications: "Metformin, Aspirin, Atorvastatin"
+                },
+                visits: [
+                    {
+                        title: "Visit 1: Initial Presentation",
+                        scenario: `<strong>Chief Complaint:</strong> Worsening shortness of breath on exertion and fatigue.
+                        <br><br>
+                        <strong>HPI:</strong> Presents with 1 year of progressive cytopenias. He has required 4 units of pRBC transfusions over the last 3 months. He was diagnosed with presumed low-risk Myelodysplastic Syndrome (MDS) 6 months ago based on an outside bone marrow biopsy. He denies fevers, rashes, or joint pains.
+                        <br><br>
+                        <strong>Vitals:</strong> T 98.6°F (37.0°C), HR 88, BP 130/78.
+                        <br><br>
+                        <strong>Physical Exam:</strong> General: Pale, tired appearance. No acute distress.
+                        <br><br>
+                        <strong>Labs:</strong>
+                        <ul>
+                            <li>CBC: WBC 3.8 k/uL (Lymphopenia, Monocytopenia noted), Hgb <span class="lab-value">8.1</span> g/dL, MCV <span class="lab-value">112</span> fL, Platelets 95 k/uL.</li>
+                            <li>Inflammatory Markers: CRP <span class="lab-value">25</span> mg/L (Mildly elevated), Ferritin <span class="lab-value">850</span> ng/mL.</li>
+                            <li>B12, Folate, Copper levels: Normal.</li>
+                        </ul>`,
+                        questions: [
+                            {
+                                text: "History Taking: The patient presents with a diagnosis of MDS, profound macrocytosis, and subtle signs of inflammation. Which focused review of systems questions are most critical to ask to evaluate for potential VEXAS syndrome?",
+                                note: "(Select All That Apply)",
+                                type: "multiple",
+                                options: [
+                                    "A. Have you experienced any pain, redness, or swelling in the cartilage of your ears or nose?",
+                                    "B. Have you had any recent unexplained blood clots (DVT or PE)?",
+                                    "C. Do you have a history of recurrent skin rashes, particularly painful nodules or bruise-like areas?",
+                                    "D. Do you have a family history of blood disorders?",
+                                    "E. Have you experienced recurrent, unexplained high fevers?"
+                                ],
+                                correct: [0, 1, 2, 4], // A, B, C, E
+                                explanation: `<strong>Rationale:</strong>
+                                <ul>
+                                    <li><strong>(A) Chondritis, (C) Rashes, (E) Fevers:</strong> These are common inflammatory manifestations of VEXAS (Figure 1) and may be subtle or occur earlier in the disease course.</li>
+                                    <li><strong>(B) Blood clots:</strong> Thromboembolic disease is prevalent in approximately 50% of patients with VEXAS.</li>
+                                    <li>(D) Family history: Incorrect. VEXAS is caused by somatic (acquired) mutations and is not a heritable disease.</li>
+                                </ul>
+                                <div class="new-guideline"><strong>2025 Guideline:</strong> VEXAS presents a significant diagnostic challenge, as its clinical and laboratory features often mimic those of other established rheumatologic and hematologic diseases (like MDS). A thorough history for inflammatory symptoms is crucial.</div>`
+                            },
+                            {
+                                text: "Diagnostic Approach: The 2025 ACR Guidance highlights that VEXAS features often mimic other hematologic diseases. What diagnostic steps are crucial at this juncture?",
+                                note: "(Select All That Apply)",
+                                type: "multiple",
+                                options: [
+                                    "A. Repeat bone marrow examination.",
+                                    "B. UBA1 genetic testing.",
+                                    "C. Review of the prior bone marrow biopsy slides for cytoplasmic vacuoles.",
+                                    "D. NGS myeloid panel testing (if not already done)."
+                                ],
+                                // Note: While repeating the BM (A) might be needed eventually, B, C, and D are the most crucial immediate steps.
+                                correct: [1, 2, 3], // B, C, D
+                                explanation: `<strong>Rationale:</strong>
+                                <ul>
+                                    <li><strong>(B) UBA1 genetic testing:</strong> Essential for diagnosis. Given the overlap with MDS, an NGS panel including UBA1 is ideal.</li>
+                                    <li><strong>(C) Review prior slides:</strong> Vacuoles may have been missed or dismissed previously. The guidelines note that vacuoles in combination with relevant clinical symptoms have a high positive predictive value.</li>
+                                    <li><strong>(D) NGS myeloid panel:</strong> Crucial to assess for coexisting mutations and properly classify the MDS.</li>
+                                    <li>(A) Repeat bone marrow examination: May be necessary if prior samples are unavailable or inadequate, but reviewing existing data and sending UBA1 testing is the immediate priority.</li>
+                                </ul>`
+                            }
+                        ]
+                    },
+                    {
+                        title: "Visit 2: Diagnostic Confirmation and Reclassification (3 weeks later)",
+                        scenario: `<strong>Interval History:</strong> Upon closer questioning, the patient admits to intermittent low-grade fevers and a history of two unprovoked DVTs 5 years ago.
+                        <br><br>
+                        <strong>Workup Results:</strong>
+                        <ul>
+                            <li><span class="highlight">UBA1 testing (via peripheral blood NGS): Positive for somatic mutation (p.Met41Leu).</span></li>
+                            <li>Repeat Bone Marrow Examination: Hypercellular marrow (80%). Increased myeloid-to-erythroid ratio. Prominent cytoplasmic vacuoles in erythroid and myeloid precursors. Dysplasia noted in erythroid and myeloid lineages. Blasts <5%.</li>
+                            <li>Cytogenetics: Normal Karyotype (46, XY).</li>
+                            <li>NGS Myeloid Panel: UBA1 mutation confirmed. Co-mutations in <span class="highlight">DNMT3A</span> and <span class="highlight">TET2</span>. No other driver mutations.</li>
+                        </ul>
+                        <br>
+                        <strong>Assessment:</strong> VEXAS syndrome confirmed.`,
+                        questions: [
+                            {
+                                text: "Bone Marrow Interpretation and MDS Diagnosis: According to the 2025 ACR guidelines, how should these bone marrow findings be interpreted in the context of VEXAS?",
+                                note: "(Select All That Apply)",
+                                type: "multiple",
+                                options: [
+                                    "A. The presence of vacuoles confirms the diagnosis of MDS in a patient with cytopenias.",
+                                    "B. Interpretation of bone marrow is challenging, as VEXAS itself frequently causes signs of dysplasia without meeting criteria for MDS.",
+                                    "C. In VEXAS, assessment of dysplasia should require morphologic evidence other than the presence of vacuolization alone.",
+                                    "D. Mutations in DNMT3A and TET2 are common in VEXAS and likely reflect clonal hematopoiesis rather than definitive MDS.",
+                                    "E. Given the significant transfusion-dependent anemia and morphologic dysplasia, an associated diagnosis of MDS should still be strongly considered."
+                                ],
+                                correct: [1, 2, 3, 4], // B, C, D, E
+                                explanation: `<strong>Rationale:</strong>
+                                <ul>
+                                    <li><strong>(B) Challenging Interpretation:</strong> The guidelines state this explicitly due to the overlap in features.</li>
+                                    <li><strong>(C) Dysplasia beyond vacuoles:</strong> Vacuolization is ubiquitous in VEXAS and should not be the sole criterion for dysplasia.</li>
+                                    <li><strong>(D) DNMT3A/TET2:</strong> The guidelines note the somatic clonal landscape in VEXAS is dominated by these mutations, irrespective of an MDS diagnosis.</li>
+                                    <li><strong>(E) Considering MDS:</strong> The guidelines reference recent literature employing stringent criteria for MDS, requiring significant/persistent cytopenia (like transfusion dependence) along with morphologic/genetic findings. This patient may meet these criteria.</li>
+                                    <li>(A) Vacuoles confirm MDS: Incorrect. Vacuoles are characteristic of VEXAS but not diagnostic of MDS.</li>
+                                </ul>`
+                            },
+                            {
+                                text: "Management of Hematologic Phenotype: The patient has minimal inflammatory symptoms but severe hematologic manifestations (transfusion-dependent bone marrow failure). How should this patient be managed according to the 2025 guidelines (Figure 4)?",
+                                note: "(Select All That Apply)",
+                                type: "multiple",
+                                options: [
+                                    "A. Initiate high-dose glucocorticoids (1mg/kg) immediately.",
+                                    "B. Initiate Ruxolitinib (JAK inhibitor) to control inflammation and improve counts.",
+                                    "C. Consider medications that reduce or eliminate the clonal burden of disease (e.g., Azacitidine).",
+                                    "D. Evaluate the patient as a candidate for Allogeneic Hematopoietic Stem Cell Transplantation (HSCT)."
+                                ],
+                                correct: [2, 3], // C, D
+                                explanation: `<strong>Rationale:</strong>
+                                <ul>
+                                    <li><strong>(C) Azacitidine:</strong> The guidelines support the use of Azacitidine, noting it has demonstrated reduction or elimination of UBA1 mutation burden.</li>
+                                    <li><strong>(D) HSCT:</strong> HSCT is a curative option. The guidelines state patients with progressive and severe bone marrow failure (e.g., transfusion-dependent) are candidates.</li>
+                                    <li>(A) High-dose glucocorticoids: Primarily used for inflammatory manifestations, which are minimal here.</li>
+                                    <li>(B) Ruxolitinib: Primarily used for inflammatory manifestations and may worsen cytopenias.</li>
+                                </ul>
+                                <div class="new-guideline"><strong>2025 Guideline (Figure 4):</strong> For patients with Hematologic Manifestations (Moderate to Severe Cytopenia, Transfusion dependent, MDS), the algorithm directs towards evaluating for HSCT candidacy and considering Azacitidine.</div>`
+                            }
+                        ]
+                    },
+                    {
+                        title: "Visit 3: Treatment Response (6 months later)",
+                        scenario: `<strong>Interval History:</strong> The patient was started on Azacitidine by Hematology. After 6 cycles, he is now transfusion-independent, and his inflammatory markers have normalized.
+                        <br><br>
+                        <strong>Labs:</strong> Hgb <span class="lab-value">10.5</span> g/dL, MCV <span class="lab-value">100</span> fL, CRP <5 mg/L. Repeat UBA1 testing shows a significant reduction in the Variant Allele Fraction (VAF).`,
+                        questions: [
+                            {
+                                text: "Patient Education - Azacitidine: The patient asks how Azacitidine works for his condition. Based on the 2025 guidelines, how do you explain the mechanism and efficacy of Azacitidine in VEXAS?",
+                                note: "(Select All That Apply)",
+                                type: "multiple",
+                                options: [
+                                    "A. Azacitidine directly inhibits IL-6 and JAK-STAT signaling, controlling inflammation.",
+                                    "B. Azacitidine is a hypomethylating agent commonly used to treat MDS.",
+                                    "C. Azacitidine can reduce or eliminate the clonal burden of disease (the cells harboring the UBA1 mutation).",
+                                    "D. Improvement in inflammation often coincides with the reduction of the UBA1 mutation burden.",
+                                    "E. Successful therapy cessation with sustained remission has been reported in small case reports, but long-term data are lacking."
+                                ],
+                                correct: [1, 2, 3, 4], // B, C, D, E
+                                explanation: `<strong>Rationale:</strong> All these points (B, C, D, E) are directly supported by the 2025 guidelines in the section discussing medications that reduce clonal burden.
+                                <br><br>
+                                (A) is incorrect as Azacitidine is a hypomethylating agent, not a direct cytokine inhibitor.
+                                <div class="new-guideline"><strong>2025 Guideline:</strong> Preliminary data on the use of azacytidine... has demonstrated reduction or elimination of UBA1 mutation burden... in conjunction with improvement in inflammation.</div>`
+                            }
+                        ]
+                    }
+                ]
+            },
+            3: {
+                title: "Case 3: Diagnostic Challenges and Complications",
+                patient: {
+                    name: "62-year-old Female",
+                    age: 62,
+                    gender: "Female",
+                    comorbidities: ["Hypothyroidism"],
+                    medications: "Levothyroxine, Prednisone 20mg daily"
+                },
+                visits: [
+                    {
+                        title: "Visit 1: The Vasculitis Mimic",
+                        scenario: `<strong>Chief Complaint:</strong> Recurrent fevers, rash, and shortness of breath.
+                        <br><br>
+                        <strong>HPI:</strong> Presents with 9 months of systemic symptoms. She initially developed severe muscle pain and stiffness, diagnosed as Polymyalgia Rheumatica (PMR), and started on Prednisone. Over the last 3 months, despite being on Prednisone 20mg daily, she developed recurrent fevers, non-infectious periorbital swelling, and a painful, purpuric rash on her lower extremities.
+                        <br><br>
+                        <strong>Vitals:</strong> T 101.3°F (38.5°C), HR 100, BP 140/90.
+                        <br><br>
+                        <strong>Physical Exam:</strong>
+                        <ul>
+                            <li>HEENT: Bilateral periorbital edema, non-tender.</li>
+                            <li>Skin: Palpable purpura on bilateral lower legs and feet.</li>
+                        </ul>
+                        <br>
+                        <strong>Labs:</strong>
+                        <ul>
+                            <li>Hgb 11.5 g/dL, MCV <span class="lab-value">102</span> fL.</li>
+                            <li>CRP <span class="lab-value">150</span> mg/L; ESR <span class="lab-value">90</span> mm/hr.</li>
+                            <li>ANCA, ANA, RF, CCP: Negative.</li>
+                        </ul>
+                        <div class="clinical-note">A skin biopsy confirms leukocytoclastic vasculitis (LCV).</div>`,
+                        questions: [
+                            {
+                                text: "Diagnostic Considerations: The constellation of symptoms raises suspicion for VEXAS syndrome, even though the patient is female. According to the 2025 guidelines, what factors support considering VEXAS in this patient?",
+                                note: "(Select All That Apply)",
+                                type: "multiple",
+                                options: [
+                                    "A. VEXAS is exclusively found in males due to the X-linked nature of the UBA1 gene.",
+                                    "B. The clinical features (fevers, LCV, periorbital swelling) are typical inflammatory manifestations of VEXAS.",
+                                    "C. Macrocytosis is a common hematologic abnormality.",
+                                    "D. VEXAS has been reported in women, particularly those with X chromosome abnormalities (e.g., monosomy X).",
+                                    "E. The initial presentation phenocopies other rheumatologic diseases (like PMR) but evolves with atypical features and treatment resistance."
+                                ],
+                                correct: [1, 2, 3, 4], // B, C, D, E
+                                explanation: `<strong>Rationale:</strong>
+                                <ul>
+                                    <li><strong>(B) Clinical Features:</strong> Fevers, LCV, and periorbital swelling are listed as typical disease features in Figure 1.</li>
+                                    <li><strong>(C) Macrocytosis:</strong> A common hematologic feature.</li>
+                                    <li><strong>(D) Females:</strong> The guidelines explicitly mention: "The vast majority of patients identified are male... although VEXAS has been reported in women, particularly those with monosomy X."</li>
+                                    <li><strong>(E) Mimicry and Resistance:</strong> The guidelines note that patients often carry specific rheumatologic diagnoses (like PMR) but their course is atypical regarding severity and response to treatment.</li>
+                                    <li>(A) Exclusively male: Incorrect, as noted above.</li>
+                                </ul>`
+                            },
+                            {
+                                text: "Diagnostic Strategy: You decide to test for VEXAS. What is a reasonable initial diagnostic approach according to the guidelines?",
+                                note: "(Select One)",
+                                type: "single",
+                                options: [
+                                    "A. Bone marrow biopsy looking for vacuoles; genetic testing is not required if vacuoles are present.",
+                                    "B. Targeted testing for UBA1 exon 3 variants (e.g., Sanger sequencing) on peripheral blood.",
+                                    "C. Whole-exome sequencing on skin biopsy tissue.",
+                                    "D. Flow cytometry for vacuolated myeloid cells only."
+                                ],
+                                correct: 1, // B
+                                explanation: `<strong>Rationale:</strong>
+                                <ul>
+                                    <li><strong>(B) Targeted testing on peripheral blood:</strong> The guidelines suggest that as an initial diagnostic approach, low-cost genetic testing, such as exon 3 analysis by Sanger sequencing, can be used, typically using DNA from peripheral blood.</li>
+                                    <li>(A) Bone marrow vacuoles: Incorrect. Genetic testing is always required for diagnosis.</li>
+                                    <li>(C) WES on skin: Incorrect. WES is broader than necessary initially, and skin tissue tends to have lower mutation levels.</li>
+                                    <li>(D) Flow cytometry: Can be helpful adjunctively but is not the primary diagnostic modality.</li>
+                                </ul>
+                                <div class="new-guideline"><strong>2025 Guideline (Figure 2):</strong> The algorithm suggests starting with UBA1 exon 3 genotyping (e.g., by Sanger sequencing) on peripheral blood or bone marrow.</div>`
+                            }
+                        ]
+                    },
+                    {
+                        title: "Visit 2: Interpreting Negative Results (4 weeks later)",
+                        scenario: `<strong>Interval History:</strong> The patient's prednisone was increased to 40mg daily with improvement in symptoms.
+                        <br><br>
+                        <strong>Workup Results:</strong> Peripheral blood Sanger sequencing for UBA1 exon 3 variants returned <span class="highlight">negative</span>.
+                        <br><br>
+                        <strong>Assessment:</strong> The attending physician suggests VEXAS is ruled out and recommends initiating Methotrexate for presumed vasculitis.`,
+                        questions: [
+                            {
+                                text: "Diagnostic Challenges: The resident recalls the limitations of genetic testing discussed in the 2025 VEXAS guidelines (Figure 2). Which factors could explain a negative Sanger sequencing result despite the patient having VEXAS?",
+                                note: "(Select All That Apply)",
+                                type: "multiple",
+                                options: [
+                                    "A. Sanger sequencing lacks sensitivity to detect somatic variants with low Variant Allele Fraction (VAF) (typically <15-20%).",
+                                    "B. The patient may have a UBA1 mutation outside of exon 3.",
+                                    "C. Active treatment (e.g., hypomethylating agents) may decrease the mutation level, affecting accuracy.",
+                                    "D. The mutation may be present at a higher VAF in the bone marrow than in the peripheral blood."
+                                ],
+                                correct: [0, 1, 2, 3], // A, B, C, D
+                                explanation: `<strong>Rationale:</strong>
+                                <ul>
+                                    <li><strong>(A) Low VAF:</strong> Sanger sequencing can identify mutations with VAFs roughly above 20% but lacks sensitivity for lower mutational burden.</li>
+                                    <li><strong>(B) Outside Exon 3:</strong> While most mutations are in exon 3, mutations outside this region have been reported.</li>
+                                    <li><strong>(C) Active treatment:</strong> The guidelines note that detection may be compromised by certain treatments, particularly hypomethylating agents (though this patient is only on steroids, it is a recognized limitation of testing mentioned in the guidelines).</li>
+                                    <li><strong>(D) BM vs PB:</strong> There are isolated cases where mutations are detected at much higher VAFs in the bone marrow.</li>
+                                </ul>
+                                <div class="new-guideline"><strong>2025 Guideline (Group 2):</strong> Targeted testing for exon 3 variants... may miss somatic variants with low VAF (Sanger sequencing) or variants outside of exon 3.</div>`
+                            },
+                            {
+                                text: "Next Steps in Investigation: Clinical suspicion for VEXAS remains high. What is the most appropriate next step to confirm or exclude the diagnosis?",
+                                note: "(Select One)",
+                                type: "single",
+                                options: [
+                                    "A. Proceed with Methotrexate and monitor clinical response.",
+                                    "B. Repeat peripheral blood Sanger sequencing in 3 months.",
+                                    "C. Perform a bone marrow examination with Next-Generation Sequencing (NGS) testing for UBA1 (covering the complete gene) and karyotyping.",
+                                    "D. Perform a renal biopsy to evaluate for pauci-immune vasculitis."
+                                ],
+                                correct: 2, // C
+                                explanation: `<strong>Rationale:</strong>
+                                <ul>
+                                    <li><strong>(C) BM with NGS and Karyotyping:</strong> If clinical suspicion is high and initial testing is negative, the guidelines recommend ensuring testing covers the complete gene (using sensitive methods like NGS) and considering testing a bone marrow sample. Karyotyping is also crucial in a female patient to look for Monosomy X.</li>
+                                    <li>(A) Methotrexate: Inappropriate to start therapy for a mimic when the primary diagnosis is still suspected.</li>
+                                    <li>(B) Repeat Sanger: Unlikely to yield different results; a more sensitive method is needed.</li>
+                                    <li>(D) Renal biopsy: Not indicated based on current labs.</li>
+                                </ul>
+                                <div class="new-guideline"><strong>2025 Guideline (Group 2):</strong> If clinical suspicion is high and genetic testing... is negative on the peripheral blood, clinicians should ensure that testing covers the complete gene and consider testing a bone marrow sample.</div>`
+                            }
+                        ]
+                    },
+                    {
+                        title: "Visit 3: Confirmation and Complications (3 months later)",
+                        scenario: `<strong>Workup Results:</strong>
+                        <ul>
+                            <li>Bone Marrow Examination: Vacuoles present.</li>
+                            <li>Karyotype: <span class="highlight">45, X [15] / 46, XX [5] (Monosomy X in 75% of cells).</span></li>
+                            <li>NGS (Bone Marrow): <span class="highlight">UBA1 p.Met41Val mutation detected. VAF 10%.</span></li>
+                        </ul>
+                        <br>
+                        <strong>Assessment:</strong> VEXAS syndrome confirmed. Monosomy X explains the phenotype in a female patient. The low VAF (10%) explains the negative Sanger sequencing.
+                        <br><br>
+                        <strong>Interval History:</strong> The patient was started on Ruxolitinib (JAK inhibitor) and PJP/VZV prophylaxis. Her inflammation improved, and prednisone was tapered to 10mg. She now presents urgently with acute onset left leg swelling and pain.
+                        <br><br>
+                        <strong>Exam:</strong> Left lower extremity is erythematous, warm, and swollen.
+                        <div class="clinical-note">Ultrasound confirms an acute deep vein thrombosis (DVT).</div>`,
+                        questions: [
+                            {
+                                text: "Acute Complication: Which statements regarding thromboembolic disease (VTE) in VEXAS are correct according to the 2025 guidelines?",
+                                note: "(Select All That Apply)",
+                                type: "multiple",
+                                options: [
+                                    "A. VTE is prevalent in approximately 50% of patients with VEXAS.",
+                                    "B. Thromboembolic events typically occur in association with ongoing disease activity (inflammation).",
+                                    "C. Patients with VEXAS should receive thromboprophylaxis in high-risk settings (e.g., hospitalization).",
+                                    "D. The use of JAK inhibitors may further increase the risk of thromboembolic disease.",
+                                    "E. The duration and choice of anticoagulation therapy for VEXAS-associated thrombosis are clearly defined in the guidelines."
+                                ],
+                                correct: [0, 1, 2, 3], // A, B, C, D
+                                explanation: `<strong>Rationale:</strong>
+                                <ul>
+                                    <li><strong>(A) Prevalence:</strong> The guidelines state VTE is prevalent in approx 50% of patients.</li>
+                                    <li><strong>(B) Disease Activity:</strong> Thrombosis typically occurs "in association with ongoing disease activity."</li>
+                                    <li><strong>(C) Prophylaxis:</strong> The guidelines recommend thromboprophylaxis in high-risk settings.</li>
+                                    <li><strong>(D) JAK inhibitors:</strong> The guidelines note the association of JAK inhibitors and increased risk for thromboembolic disease.</li>
+                                    <li>(E) Defined duration: Incorrect. The guidelines state that the "duration and choice of anticoagulation therapy has not been defined."</li>
+                                </ul>`
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        // --- Core Functions ---
+
+        function openLink(url) {
+            window.open(url, '_blank');
+        }
+
+        function selectCase(caseNum) {
+            if (!cases[caseNum]) {
+                console.error('Case not found:', caseNum);
+                return;
+            }
+            
+            currentCase = caseNum;
+            currentVisit = 0;
+            score = 0;
+            totalQuestions = 0;
+            selections = {};
+            
+            // Count total questions
+            cases[caseNum].visits.forEach(visit => {
+                totalQuestions += visit.questions.length;
+            });
+            
+            // Update button states
+            updateCaseButtons(caseNum);
+            
+            loadCaseIntro();
+        }
+
+        function updateCaseButtons(activeCaseNum) {
+            document.querySelectorAll('.case-btn').forEach((btn, index) => {
+                const caseNum = index + 1;
+                btn.classList.remove('active');
+                if (completedCases.has(caseNum)) {
+                    btn.classList.add('completed');
+                }
+                if (caseNum === activeCaseNum) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        function loadCaseIntro() {
+            const caseData = cases[currentCase];
+            const content = document.getElementById('content');
+            
+            // Ensure occupation is displayed if present, otherwise omit
+            const occupationHtml = caseData.patient.occupation ? `<div class="info-item"><strong>Occupation:</strong> ${caseData.patient.occupation}</div>` : '';
+
+            content.innerHTML = `
+                <div class="case-intro">
+                    <h2>${caseData.title}</h2>
+                    <div class="patient-info">
+                        <h3>Patient Information</h3>
+                        <div class="info-grid">
+                            <div class="info-item"><strong>Patient:</strong> ${caseData.patient.name}</div>
+                            <div class="info-item"><strong>Age:</strong> ${caseData.patient.age} years old</div>
+                            <div class="info-item"><strong>Gender:</strong> ${caseData.patient.gender}</div>
+                            ${occupationHtml}
+                        </div>
+                        <div style="margin-top: 15px;">
+                            <div class="info-item"><strong>Comorbidities:</strong> ${caseData.patient.comorbidities.join(', ')}</div>
+                            <div class="info-item"><strong>Current Medications:</strong> ${caseData.patient.medications}</div>
+                        </div>
+                    </div>
+                    <button class="submit-btn" onclick="startCase()">Begin Case</button>
+                </div>
+            `;
+        }
+
+        function startCase() {
+            if (!currentCase || !cases[currentCase]) {
+                console.error('No case selected');
+                return;
+            }
+            loadVisit();
+        }
+
+        function loadVisit() {
+            const caseData = cases[currentCase];
+            const visit = caseData.visits[currentVisit];
+            const content = document.getElementById('content');
+            selections = {}; // Reset selections for the new visit
+            
+            let questionsHtml = '';
+            visit.questions.forEach((question, qIndex) => {
+                const questionId = `q${currentVisit}_${qIndex}`;
+                selections[questionId] = []; // Initialize selections array for this question
+
+                questionsHtml += `
+                    <div class="question-box" id="${questionId}">
+                        <h4>Question ${currentVisit + 1}.${qIndex + 1}: ${question.text}</h4>
+                        ${question.note ? `<div class="question-note">${question.note}</div>` : ''}
+                        <div class="options">
+                            ${question.options.map((option, oIndex) => `
+                                <button class="option" onclick="selectOption('${questionId}', ${oIndex}, '${question.type}')" id="${questionId}_opt${oIndex}">
+                                    ${option}
+                                </button>
+                            `).join('')}
+                        </div>
+                        <button class="submit-btn" id="${questionId}_submit" onclick="submitAnswer('${questionId}', ${qIndex})" disabled>Submit Answer</button>
+                        <div class="feedback" id="${questionId}_feedback"></div>
+                    </div>
+                `;
+            });
+            
+            content.innerHTML = `
+                <div class="visit-section" id="visitSection">
+                    <div class="visit-header">
+                        <h3>${visit.title}</h3>
+                        <p>Visit ${currentVisit + 1} of ${caseData.visits.length}</p>
+                    </div>
+                    
+                    <div class="clinical-data">
+                        <h4>Clinical Presentation</h4>
+                        <div>${visit.scenario}</div>
+                    </div>
+                    
+                    ${questionsHtml}
+                    
+                    <button class="next-btn" id="nextBtn" onclick="nextVisit()">Continue →</button>
+                </div>
+                
+                <div class="case-complete" id="caseComplete">
+                    <h3>🎉 Case Complete!</h3>
+                    <div class="score-display">Your Score: <span id="finalScore"></span></div>
+                    <div class="final-feedback" id="finalFeedback"></div>
+                </div>
+            `;
+        }
+
+        function selectOption(questionId, optionIndex, type) {
+            const currentSelections = selections[questionId] || [];
+            
+            if (type === 'single') {
+                // Single choice
+                document.querySelectorAll(`#${questionId} .option`).forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                document.getElementById(`${questionId}_opt${optionIndex}`).classList.add('selected');
+                selections[questionId] = [optionIndex];
+            } else {
+                // Multiple choice
+                const opt = document.getElementById(`${questionId}_opt${optionIndex}`);
+                if (opt.classList.contains('selected')) {
+                    opt.classList.remove('selected');
+                    const index = currentSelections.indexOf(optionIndex);
+                    if (index > -1) currentSelections.splice(index, 1);
+                } else {
+                    opt.classList.add('selected');
+                    currentSelections.push(optionIndex);
+                }
+                selections[questionId] = currentSelections;
+            }
+            
+            // Enable submit button if at least one option selected
+            const hasSelection = selections[questionId].length > 0;
+            document.getElementById(`${questionId}_submit`).disabled = !hasSelection;
+        }
+
+        function submitAnswer(questionId, questionIndex) {
+            const visit = cases[currentCase].visits[currentVisit];
+            const question = visit.questions[questionIndex];
+            const selectedIndices = selections[questionId] || [];
+            
+            if (selectedIndices.length === 0) return;
+            
+            let isCorrect = false;
+            let isPartial = false;
+            
+            // Evaluate the answer
+            if (question.type === 'single') {
+                isCorrect = selectedIndices[0] === question.correct;
+            } else {
+                const correctSet = new Set(question.correct);
+                const selectedSet = new Set(selectedIndices);
+                
+                if (correctSet.size === selectedSet.size && 
+                    [...correctSet].every(x => selectedSet.has(x))) {
+                    isCorrect = true;
+                } else if ([...selectedSet].some(x => correctSet.has(x))) {
+                    isPartial = true; // Award partial credit if some correct options are selected
+                }
+            }
+            
+            // Update score
+            if (isCorrect) score++;
+            else if (isPartial) score += 0.5;
+            
+            // Visual feedback on options
+            document.querySelectorAll(`#${questionId} .option`).forEach((opt, index) => {
+                opt.onclick = null; // Disable further clicks
+                opt.style.cursor = 'default';
+                // Remove interaction classes
+                opt.classList.remove('selected');
+                opt.style.transform = 'none';
+
+                
+                const isSelected = selectedIndices.includes(index);
+                const isCorrectAnswer = question.type === 'single' ? index === question.correct : question.correct.includes(index);
+
+                if (isCorrectAnswer) {
+                    opt.classList.add('correct');
+                } else if (isSelected) {
+                    opt.classList.add('incorrect');
+                }
+            });
+            
+            // Show detailed feedback box
+            const feedback = document.getElementById(`${questionId}_feedback`);
+            let feedbackClass, feedbackTitle;
+
+            if (isCorrect) {
+                feedbackClass = 'correct';
+                feedbackTitle = '✓ Correct!';
+            } else if (isPartial) {
+                feedbackClass = 'partial';
+                feedbackTitle = '⚠ Partially Correct';
+            } else {
+                feedbackClass = 'incorrect';
+                feedbackTitle = '✗ Incorrect';
+            }
+
+            feedback.className = `feedback ${feedbackClass}`;
+            feedback.innerHTML = `
+                <h5>${feedbackTitle}</h5>
+                <div>${question.explanation}</div>
+            `;
+            feedback.style.display = 'block';
+            
+            // Hide submit button
+            document.getElementById(`${questionId}_submit`).style.display = 'none';
+            
+            // Check if all questions in visit are answered
+            checkVisitComplete();
+        }
+
+        function checkVisitComplete() {
+            const visit = cases[currentCase].visits[currentVisit];
+            const allAnswered = visit.questions.every((_, qIndex) => {
+                const qId = `q${currentVisit}_${qIndex}`;
+                const feedbackEl = document.getElementById(`${qId}_feedback`);
+                return feedbackEl && feedbackEl.style.display === 'block';
+            });
+            
+            if (allAnswered) {
+                const nextBtn = document.getElementById('nextBtn');
+                nextBtn.style.display = 'block';
+                // Update button text if it's the last visit
+                if (currentVisit === cases[currentCase].visits.length - 1) {
+                    nextBtn.textContent = 'Finish Case and View Score →';
+                }
+            }
+        }
+
+        function nextVisit() {
+            currentVisit++;
+            
+            if (currentVisit < cases[currentCase].visits.length) {
+                loadVisit();
+            } else {
+                showCaseComplete();
+            }
+        }
+
+        function showCaseComplete() {
+            const caseComplete = document.getElementById('caseComplete');
+            // Adjust score calculation for partial credits
+            const percentage = Math.round((score / totalQuestions) * 100);
+            
+            // Hide visit section
+            document.getElementById('visitSection').style.display = 'none';
+            
+            // Show completion
+            caseComplete.style.display = 'block';
+            document.getElementById('finalScore').textContent = `${score.toFixed(1)}/${totalQuestions} (${percentage}%)`;
+            
+            // Generate final feedback
+            let feedbackHtml = '<h4>Case Summary & Key Learning Points</h4>';
+            
+            if (percentage >= 90) {
+                feedbackHtml += '<p><strong>Excellent work!</strong> You demonstrated mastery of the 2025 VEXAS guidelines.</p>';
+            } else if (percentage >= 70) {
+                feedbackHtml += '<p><strong>Good performance!</strong> You showed solid understanding of VEXAS syndrome. Review the guidelines for areas where you lost points.</p>';
+            } else {
+                feedbackHtml += '<p><strong>Review recommended.</strong> Consider revisiting the 2025 VEXAS guidelines to solidify your understanding.</p>';
+            }
+            
+            // Add key points based on the case
+            feedbackHtml += '<div class="key-points"><h4>Critical VEXAS Guidelines from This Case:</h4><ul>';
+            
+            if (currentCase === 1) {
+                feedbackHtml += `
+                    <li><span class="highlight">Classic Features:</span> Male >50, auricular chondritis, macrocytic anemia, elevated inflammatory markers (Figure 1).</li>
+                    <li><span class="highlight">Diagnosis:</span> UBA1 testing on peripheral blood is the preferred initial test (Figure 2).</li>
+                    <li><span class="highlight">Management:</span> Multidisciplinary care (Rheum/Heme) is essential. Glucocorticoid-free remission is unusual.</li>
+                    <li><span class="highlight">Steroid-sparing:</span> JAK inhibitors (e.g., Ruxolitinib) and IL-6 inhibitors are preferred over conventional DMARDs (Figure 4).</li>
+                    <li><span class="highlight">Contraindications:</span> B-cell depletion (e.g., Rituximab) is contraindicated.</li>
+                `;
+            } else if (currentCase === 2) {
+                feedbackHtml += `
+                    <li><span class="highlight">Hematologic Phenotype:</span> VEXAS can mimic MDS with minimal overt inflammation; look for subtle clues (macrocytosis, elevated ferritin, history of VTE).</li>
+                    <li><span class="highlight">Bone Marrow Interpretation:</span> Challenging; vacuoles and dysplasia are common in VEXAS itself. DNMT3A/TET2 mutations are frequent.</li>
+                    <li><span class="highlight">MDS Diagnosis:</span> Requires stringent criteria (e.g., transfusion dependence + morphology/genetics) beyond just vacuoles.</li>
+                    <li><span class="highlight">Clone-directed Therapy:</span> For hematologic phenotype, consider Azacitidine to reduce UBA1 burden (Figure 4).</li>
+                    <li><span class="highlight">HSCT:</span> Only curative option; evaluate patients with severe bone marrow failure (Figure 4).</li>
+                `;
+            } else if (currentCase === 3) {
+                feedbackHtml += `
+                    <li><span class="highlight">Female VEXAS:</span> Rare but possible, particularly with X chromosome abnormalities (e.g., Monosomy X).</li>
+                    <li><span class="highlight">Diagnostic Pitfalls:</span> Negative Sanger sequencing does not exclude VEXAS due to low VAF (<15-20%) or non-exon 3 mutations (Figure 2).</li>
+                    <li><span class="highlight">Next Steps:</span> If suspicion remains high, proceed to BM with NGS (more sensitive) and karyotyping.</li>
+                    <li><span class="highlight">Thrombosis:</span> High prevalence (~50%), associated with active disease. Prophylaxis needed in high-risk settings.</li>
+                    <li><span class="highlight">JAK Inhibitors & VTE:</span> JAK inhibitors may further increase thrombosis risk.</li>
+                `;
+            }
+            
+            feedbackHtml += '</ul></div>';
+            
+            feedbackHtml += `
+                <div style="margin-top: 30px; text-align: center;">
+                    <button class="submit-btn" onclick="resetToMenu()">Return to Case Selection</button>
+                </div>
+            `;
+            
+            document.getElementById('finalFeedback').innerHTML = feedbackHtml;
+            
+            // Mark case as completed
+            completedCases.add(currentCase);
+            updateCaseButtons(null);
+        }
+
+        function resetToMenu() {
+            currentCase = null;
+            const content = document.getElementById('content');
+            content.innerHTML = `
+                <div class="welcome">
+                    <h2>Select Another Case</h2>
+                    <p>Choose a case above to continue learning the 2025 ACR VEXAS guidelines.</p>
+                    <div class="key-points" style="max-width: 600px; margin: 30px auto;">
+                        <h4>Progress Summary</h4>
+                        <ul style="text-align: left;">
+                            ${[1, 2, 3].map(caseNum => {
+                                const completed = completedCases.has(caseNum);
+                                return `<li>Case ${caseNum}: ${completed ? '✓ Completed' : 'Incomplete'}</li>`;
+                            }).join('')}
+                        </ul>
+                    </div>
+                    <div class="key-points" style="max-width: 600px; margin: 30px auto;">
+                        <h4>Key 2025 VEXAS Guideline Themes</h4>
+                        <ul style="text-align: left;">
+                            <li><strong>Diagnosis:</strong> High suspicion needed; UBA1 testing essential (NGS preferred if initial Sanger is negative).</li>
+                            <li><strong>Phenotypes:</strong> Recognize both Inflammatory (Chondritis, Vasculitis) and Hematologic (MDS, Bone Marrow Failure) presentations.</li>
+                            <li><strong>Management:</strong> Requires Multidisciplinary care (Rheumatology + Hematology).</li>
+                            <li><strong>Treatment:</strong> JAK inhibitors/IL-6 inhibitors for inflammation; Azacitidine/HSCT for hematologic/clonal burden.</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+            
+            // Update button states
+            updateCaseButtons(null);
+        }
+
+    </script>
+</body>
+</html>
